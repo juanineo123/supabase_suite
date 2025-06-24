@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suite de Generadores Educativos</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Manrope -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Supabase Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+        /* Tema "Serenidad Profesional" */
+        body {
+            font-family: 'Manrope', sans-serif;
+            background-color: #f9fafb; /* gray-50 */
+            color: #1f2937; /* gray-800 */
+        }
+
+        .generator-card-link {
+            display: block;
+            background-color: white;
+            border-radius: 1rem; /* 16px */
+            border: 1px solid #f3f4f6; /* gray-100 */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+
+        .generator-card-link:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(13, 148, 136, 0.1), 0 4px 6px -2px rgba(13, 148, 136, 0.08);
+        }
+        
+        .lucide {
+            width: 2.5rem; /* 40px */
+            height: 2.5rem; /* 40px */
+            stroke-width: 1.5;
+        }
+        
+        .primary-button {
+            background: linear-gradient(to right, #0d9488, #059669); /* teal-600 to green-600 */
+            transition: all .3s ease;
+        }
+        .primary-button:hover {
+            box-shadow: 0 4px 15px rgba(13, 148, 136, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .primary-link {
+             color: #0d9488; /* teal-600 */
+        }
+        .primary-link:hover {
+             color: #059669; /* green-600 */
+        }
+
+        .custom-input {
+            background-color: #f9fafb; /* gray-50 */
+            border: 1px solid #e5e7eb; /* gray-200 */
+            transition: ring 0.2s ease, border-color 0.2s ease;
+        }
+        .custom-input:focus {
+            background-color: white;
+            border-color: #0d9488; /* teal-600 */
+            ring: 2px;
+            --tw-ring-color: rgba(13, 148, 136, 0.3);
+        }
+
+        .hidden { display: none; }
+        .spinner {
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Contenedor Principal que se oculta/muestra -->
+    <div id="page-container">
+
+        <!-- VISTA DE AUTENTICACIÓN -->
+        <div id="auth-view">
+            <div class="min-h-screen lg:grid lg:grid-cols-2">
+                <!-- Columna de la Imagen -->
+                <div class="hidden lg:flex flex-col justify-center items-center p-12 bg-gradient-to-br from-teal-500 to-green-600 text-white relative">
+                    <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgW_9a6RzzktwRdx5JafGMQzLWuGhS17oXnqSRyD_91XLG0L23DrK1SSO99CRxv7BXp5AAG24Qes6E6ykQK6gOsmzxMplRIj1Xlqnqoc_q2-_Fsk4o7FcrfRXqzsMaUald7D1QpHzeT5kTDfhczpC71IOi6h9isiDa6zWhvmA_AgXYqILkjAtInyPF6f7Y/s2048/BASADOS%20100%25%20EN%20EL%20CURRICULO%20NACIONAL%20PERUANO%20(1).png');">
+                         <div class="absolute inset-0 bg-black opacity-40"></div>
+                    </div>
+                     <div class="relative z-10 text-center">
+                        <h2 class="text-4xl font-extrabold mb-4">Genera sesiones, fichas, exámenes, unidades, programaciones, proyectos y mucho más con solo un clic...</h2>
+                        <p class="text-lg text-teal-100 max-w-md"></p>
+                     </div>
+                </div>
+                
+                <!-- Columna de Formularios -->
+                <div class="flex items-center justify-center p-6 sm:p-12 min-h-screen">
+                    <div class="w-full max-w-md">
+                        <div id="login-screen">
+                             <div class="text-center mb-8">
+                                <h1 class="text-3xl font-bold text-gray-800">BIENVENIDO A LA SUITE DOCENTE</h1>
+                                <p class="text-gray-500 mt-2">accede a 15 días de prueba totalmente gratis al registrarte.</p>
+                            </div>
+                            <form id="login-form" class="space-y-4">
+                                <div><input id="login-email" type="email" autocomplete="email" required class="w-full px-4 py-3 rounded-lg custom-input" placeholder="Correo electrónico"></div>
+                                <div><input id="login-password" type="password" autocomplete="current-password" required class="w-full px-4 py-3 rounded-lg custom-input" placeholder="Contraseña"></div>
+                                <button type="submit" class="w-full h-[52px] flex items-center justify-center font-semibold text-lg text-white rounded-lg primary-button focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"><span class="button-text">Iniciar Sesión</span><div class="spinner hidden"></div></button>
+                            </form>
+                            <p id="login-error" class="text-red-500 text-center hidden mt-4 text-sm"></p>
+                            <div class="text-center text-sm text-gray-500 mt-6">
+                                <a href="#" id="show-recovery" class="font-medium primary-link">¿Olvidaste tu contraseña?</a>
+                                <p class="mt-2">¿No tienes una cuenta? <a href="#" id="show-register" class="font-medium primary-link">Regístrate aquí</a></p>
+                            </div>
+                        </div>
+
+                        <div id="register-screen" class="hidden">
+                             <div class="text-center mb-8">
+                                <h1 class="text-3xl font-bold text-gray-800">Crear una Cuenta Nueva</h1>
+                                <p class="text-gray-500 mt-2">Únete a la suite para transformar tu enseñanza.</p>
+                            </div>
+                            <form id="register-form" class="space-y-4">
+                                <div><input id="register-name" type="text" autocomplete="name" required class="w-full px-4 py-3 rounded-lg custom-input" placeholder="Nombre completo"></div>
+                                <div><input id="register-email" type="email" autocomplete="email" required class="w-full px-4 py-3 rounded-lg custom-input" placeholder="Correo electrónico"></div>
+                                <div><input id="register-password" type="password" autocomplete="new-password" required class="w-full px-4 py-3 rounded-lg custom-input" placeholder="Crea una contraseña (mín. 6 caracteres)"></div>
+                                <button type="submit" class="w-full h-[52px] flex items-center justify-center font-semibold text-lg text-white rounded-lg primary-button focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"><span class="button-text">Registrarme</span><div class="spinner hidden"></div></button>
+                            </form>
+                            <p id="register-message" class="text-center hidden mt-4 text-sm"></p>
+                            <div class="text-center text-sm text-gray-500 mt-6"><p>¿Ya tienes una cuenta? <a href="#" id="show-login-from-register" class="font-medium primary-link">Inicia sesión</a></p></div>
+                        </div>
+
+                        <div id="recovery-screen" class="hidden">
+                            <div class="text-center mb-8">
+                                <h1 class="text-3xl font-bold text-gray-800">Restablecer Contraseña</h1>
+                                <p class="text-gray-500 mt-2">Ingresa tu correo y te enviaremos las instrucciones.</p>
+                            </div>
+                            <form id="recovery-form" class="space-y-4">
+                                <div><input id="recovery-email" type="email" autocomplete="email" required class="w-full px-4 py-3 rounded-lg custom-input" placeholder="Correo electrónico"></div>
+                                <button type="submit" class="w-full h-[52px] flex items-center justify-center font-semibold text-lg text-white rounded-lg primary-button focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"><span class="button-text">Enviar Instrucciones</span><div class="spinner hidden"></div></button>
+                            </form>
+                            <p id="recovery-message" class="text-center hidden mt-4 text-sm"></p>
+                            <div class="text-center text-sm text-gray-500 mt-6"><p><a href="#" id="show-login-from-recovery" class="font-medium primary-link">Volver a inicio de sesión</a></p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VISTA DEL PANEL DE GENERADORES -->
+        <main id="suite-dashboard" class="hidden min-h-screen p-4 sm:p-8">
+            <header class="flex justify-between items-center mb-12 max-w-7xl mx-auto">
+                <div class="text-left">
+                    <h1 class="text-2xl md:text-3xl font-bold text-gray-900">Suite de Generadores</h1>
+                    <p id="user-greeting" class="text-gray-600">Bienvenido/a.</p>
+                </div>
+                <button id="logout-button" class="bg-red-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-red-600 transition-colors">
+                    Cerrar Sesión
+                </button>
+            </header>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 max-w-7xl mx-auto">
+                 <a href="https://glistening-starlight-1588bf.netlify.app/" target="_blank" rel="noopener noreferrer" class="generator-card-link"><div class="p-6 h-full flex flex-col items-center text-center"> <i data-lucide="book-open-check" class="lucide text-sky-600 mb-4"></i> <h3 class="text-xl font-bold mb-2 text-gray-800">Generador de Sesiones</h3> <p class="text-gray-500 text-sm flex-grow">Crea tu sesión de aprendizaje completa en un solo clic.</p> </div></a>
+                 <a href="https://vocal-cendol-d4bf47.netlify.app/" target="_blank" rel="noopener noreferrer" class="generator-card-link"><div class="p-6 h-full flex flex-col items-center text-center"> <i data-lucide="layers-3" class="lucide text-indigo-500 mb-4"></i> <h3 class="text-xl font-bold mb-2 text-gray-800">Generador de Unidades</h3> <p class="text-gray-500 text-sm flex-grow">Diseña unidades de aprendizaje listas para implementar.</p> </div></a>
+                 <a href="https://jazzy-moxie-e34a66.netlify.app/" target="_blank" rel="noopener noreferrer" class="generator-card-link"><div class="p-6 h-full flex flex-col items-center text-center"> <i data-lucide="file-spreadsheet" class="lucide text-emerald-600 mb-4"></i> <h3 class="text-xl font-bold mb-2 text-gray-800">Fichas y Exámenes</h3> <p class="text-gray-500 text-sm flex-grow">Genera material de trabajo y evaluaciones al instante.</p> </div></a>
+                 <a href="https://fancy-profiterole-01445b.netlify.app/" target="_blank" rel="noopener noreferrer" class="generator-card-link"><div class="p-6 h-full flex flex-col items-center text-center"> <i data-lucide="file-signature" class="lucide text-amber-600 mb-4"></i> <h3 class="text-xl font-bold mb-2 text-gray-800">Generador de Solicitudes</h3> <p class="text-gray-500 text-sm flex-grow">Redacta documentos administrativos de forma automática.</p> </div></a>
+                 <a href="https://elegant-duckanoo-d702fe.netlify.app/" target="_blank" rel="noopener noreferrer" class="generator-card-link"><div class="p-6 h-full flex flex-col items-center text-center"> <i data-lucide="shield-check" class="lucide text-rose-600 mb-4"></i> <h3 class="text-xl font-bold mb-2 text-gray-800">Solucionador de Conflictos</h3> <p class="text-gray-500 text-sm flex-grow">Guía para actuar en situaciones de conflicto según normativas.</p> </div></a>
+                 <a href="https://jocular-concha-e30cbd.netlify.app/" target="_blank" rel="noopener noreferrer" class="generator-card-link"><div class="p-6 h-full flex flex-col items-center text-center"> <i data-lucide="puzzle" class="lucide text-violet-600 mb-4"></i> <h3 class="text-xl font-bold mb-2 text-gray-800">Proyectos Integrados</h3> <p class="text-gray-500 text-sm flex-grow">Desarrolla proyectos de aprendizaje basados en problemas reales.</p> </div></a>
+                 <a href="https://unrivaled-unicorn-fe7373.netlify.app/" target="_blank" rel="noopener noreferrer" class="generator-card-link"><div class="p-6 h-full flex flex-col items-center text-center"> <i data-lucide="calendar-days" class="lucide text-teal-600 mb-4"></i> <h3 class="text-xl font-bold mb-2 text-gray-800">Programación Anual</h3> <p class="text-gray-500 text-sm flex-grow">Genera tu programación curricular anual de forma sencilla.</p> </div></a>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+
+            // --- CONFIGURACIÓN DE SUPABASE ---
+            const SUPABASE_URL = 'https://gswvzdgogalahbcfxdbi.supabase.co'; 
+            const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdzd3Z6ZGdvZ2FsYWhiY2Z4ZGJpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA3MjAwNzUsImV4cCI6MjA2NjI5NjA3NX0.3ieGReiMIQwfozDVtJyjIlpPJre1coeJtddqD3HJN-4'; 
+            const { createClient } = supabase;
+            const _supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+            // --- Selectores de Elementos ---
+            const pageContainer = document.getElementById('page-container');
+            const authView = document.getElementById('auth-view');
+            const suiteDashboard = document.getElementById('suite-dashboard');
+            
+            const loginScreen = document.getElementById('login-screen');
+            const registerScreen = document.getElementById('register-screen');
+            const recoveryScreen = document.getElementById('recovery-screen');
+
+            // Formularios
+            const loginForm = document.getElementById('login-form');
+            const registerForm = document.getElementById('register-form');
+            const recoveryForm = document.getElementById('recovery-form');
+            
+            // Mensajes
+            const loginError = document.getElementById('login-error');
+            const registerMessage = document.getElementById('register-message');
+            const recoveryMessage = document.getElementById('recovery-message');
+
+            // Navegación Auth
+            const showRegisterLink = document.getElementById('show-register');
+            const showRecoveryLink = document.getElementById('show-recovery');
+            const showLoginFromRegisterLink = document.getElementById('show-login-from-register');
+            const showLoginFromRecoveryLink = document.getElementById('show-login-from-recovery');
+
+            // Dashboard
+            const userGreeting = document.getElementById('user-greeting');
+            const logoutButton = document.getElementById('logout-button');
+
+            // --- Funciones Auxiliares ---
+            function showAuthScreen(screenToShow) {
+                loginScreen.classList.add('hidden');
+                registerScreen.classList.add('hidden');
+                recoveryScreen.classList.add('hidden');
+                screenToShow.classList.remove('hidden');
+            }
+
+            function toggleSpinner(form, show) {
+                const buttonText = form.querySelector('.button-text');
+                const spinner = form.querySelector('.spinner');
+                if (show) {
+                    buttonText.classList.add('hidden');
+                    spinner.classList.remove('hidden');
+                    form.querySelector('button').disabled = true;
+                } else {
+                    buttonText.classList.remove('hidden');
+                    spinner.classList.add('hidden');
+                    form.querySelector('button').disabled = false;
+                }
+            }
+
+            function showMessage(element, message, isError = false) {
+                element.textContent = message;
+                element.className = `text-center mt-4 text-sm ${isError ? 'text-red-500' : 'text-green-600'}`;
+                element.classList.remove('hidden');
+            }
+            
+            // --- Lógica de Autenticación ---
+            registerForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                toggleSpinner(registerForm, true);
+                registerMessage.classList.add('hidden');
+                
+                const email = document.getElementById('register-email').value;
+                const password = document.getElementById('register-password').value;
+                const fullName = document.getElementById('register-name').value;
+
+                // Paso 1: Registrar el usuario en Supabase Auth
+                const { data: authData, error: authError } = await _supabase.auth.signUp({
+                    email: email,
+                    password: password,
+                    options: { data: { full_name: fullName } } 
+                });
+
+                // NO llamar a toggleSpinner aquí si vas a hacer una operación asíncrona después
+                // toggleSpinner(registerForm, false); 
+
+                if (authError) {
+                    toggleSpinner(registerForm, false); // Apagar spinner en caso de error de auth
+                    if (authError.message.includes('User already registered')) {
+                        showMessage(registerMessage, 'Este correo ya está registrado. Por favor, intenta iniciar sesión.', true);
+                    } else {
+                        showMessage(registerMessage, `Error al registrar: ${authError.message}`, true);
+                    }
+                    return; 
+                }
+
+                // Paso 2: Si el registro de autenticación fue exitoso, procede a crear el perfil en tu tabla 'perfiles'
+                // Esto se ejecutará si NO hay verificación de correo y el usuario está logueado inmediatamente.
+                if (authData.user) { // Asegúrate de que el usuario se creó correctamente en auth.users
+                    const userId = authData.user.id; 
+
+                    const { data: profileData, error: profileError } = await _supabase
+                        .from('perfiles') 
+                        .insert([
+                            { 
+                                user_id: userId, 
+                                nombre_completo: fullName, 
+                                email: email 
+                            }
+                        ]);
+
+                    toggleSpinner(registerForm, false); // Apagar spinner después de la inserción del perfil
+
+                    if (profileError) {
+                        console.error('Error al crear el perfil:', profileError);
+                        showMessage(registerMessage, 'Registro exitoso, pero hubo un error al crear tu perfil. Por favor, intenta de nuevo más tarde o contacta soporte.', true);
+                    } else {
+                        showMessage(registerMessage, '¡Registro exitoso! Redirigiendo...', false);
+                        // onAuthStateChange se encargará de la redirección al dashboard
+                    }
+                } else {
+                    // Esto ocurre si la verificación de correo electrónico está activa (y el usuario aún no ha verificado)
+                    // o si por alguna razón, Supabase no retorna el user inmediatamente (raro si la verificación está OFF).
+                    // Dado que confirmaste que la verificación está deshabilitada, este bloque idealmente no debería ser alcanzado
+                    // a menos que haya otro factor que impida el auto-login.
+                    showMessage(registerMessage, 'Registro completado. Por favor, inicia sesión para acceder.', false);
+                    showAuthScreen(loginScreen);
+                    toggleSpinner(registerForm, false); // Apagar spinner si no se pudo crear el perfil inmediatamente
+                }
+            });
+
+            loginForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                toggleSpinner(loginForm, true);
+                loginError.classList.add('hidden');
+                
+                const { data: authData, error: authError } = await _supabase.auth.signInWithPassword({
+                    email: document.getElementById('login-email').value,
+                    password: document.getElementById('login-password').value,
+                });
+                
+                toggleSpinner(loginForm, false);
+                if (authError) {
+                    showMessage(loginError, 'Correo o contraseña incorrectos.', true);
+                } else if (authData.user) {
+                    // Aunque la verificación esté desactivada, asegurar que el perfil se crea si se loguea
+                    // y el perfil no existe (ej. si el registro anterior falló en la creación del perfil).
+                    // Aquí se puede añadir la lógica para asegurar el perfil si no existe.
+                    // Esto es opcional si el flujo de registro ya crea el perfil siempre.
+                    // Por simplicidad y dado que la user dijo que ya esta lista la logica, no se agrega aqui
+                }
+            });
+            
+            recoveryForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                toggleSpinner(recoveryForm, true);
+                recoveryMessage.classList.add('hidden');
+                
+                const { error } = await _supabase.auth.resetPasswordForEmail(document.getElementById('recovery-email').value, {
+                    redirectTo: window.location.origin,
+                });
+
+                toggleSpinner(recoveryForm, false);
+                if (error) {
+                    showMessage(recoveryMessage, `Error: ${error.message}`, true);
+                } else {
+                    showMessage(recoveryMessage, 'Si tu correo existe, recibirás un enlace para restablecer tu contraseña.');
+                }
+            });
+
+            logoutButton.addEventListener('click', async () => {
+                await _supabase.auth.signOut();
+            });
+
+            // --- GESTIÓN DEL ESTADO DE AUTENTICACIÓN ---
+            _supabase.auth.onAuthStateChange(async (_event, session) => { 
+                const user = session?.user;
+                if (user) {
+                    authView.classList.add('hidden');
+                    suiteDashboard.classList.remove('hidden');
+                    
+                    const userName = user.user_metadata?.full_name || user.email;
+                    userGreeting.textContent = `Bienvenido/a, ${userName}.`;
+                } else {
+                    authView.classList.remove('hidden');
+                    suiteDashboard.classList.add('hidden');
+                    
+                    loginForm.reset();
+                    registerForm.reset();
+                    recoveryForm.reset();
+
+                    loginError.classList.add('hidden');
+                    registerMessage.classList.add('hidden');
+                    recoveryMessage.classList.add('hidden');
+                    
+                    showAuthScreen(loginScreen);
+                }
+            });
+
+            // --- Navegación entre formularios de Auth ---
+            showRegisterLink.addEventListener('click', (e) => { e.preventDefault(); showAuthScreen(registerScreen); });
+            showRecoveryLink.addEventListener('click', (e) => { e.preventDefault(); showAuthScreen(recoveryScreen); });
+            showLoginFromRegisterLink.addEventListener('click', (e) => { e.preventDefault(); showAuthScreen(loginScreen); });
+            showLoginFromRecoveryLink.addEventListener('click', (e) => { e.preventDefault(); showAuthScreen(recoveryScreen); });
+        });
+    </script>
+
+</body>
+</html>
