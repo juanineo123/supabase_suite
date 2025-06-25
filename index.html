@@ -46,20 +46,15 @@
 
     <div id="page-container">
         <div id="auth-view">
-            <!-- ===== CONTENEDOR PRINCIPAL RESPONSIVO ===== -->
-            <!-- En móvil es una columna (flex-col), en desktop es una cuadrícula (lg:grid) -->
-            <!-- h-screen fuerza a que el contenedor ocupe el 100% de la altura de la pantalla -->
-            <div class="flex flex-col lg:grid lg:grid-cols-2 h-screen">
+            <div class="h-screen flex flex-col lg:flex-row">
 
-                <!-- ===== SECCIÓN DE IMAGEN (MITAD SUPERIOR EN MÓVIL, IZQUIERDA EN DESKTOP) ===== -->
-                <div class="relative bg-cover bg-center" style="background-image: url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgW_9a6RzzktwRdx5JafGMQzLWuGhS17oXnqSRyD_91XLG0L23DrK1SSO99CRxv7BXp5AAG24Qes6E6ykQK6gOsmzxMplRIj1Xlqnqoc_q2-_Fsk4o7FcrfRXqzsMaUald7D1QpHzeT5kTDfhczpC71IOi6h9isiDa6zWhvmA_AgXYqILkjAtInyPF6f7Y/s2048/BASADOS%20100%25%20EN%20EL%20CURRICULO%20NACIONAL%20PERUANO%20(1).png');">
-                    <!-- Superposición oscura solo para desktop para legibilidad del texto en la imagen -->
-                    <div class="hidden lg:block absolute inset-0 bg-black opacity-40"></div>
+                <div class="relative lg:w-1/2 h-1/2 lg:h-full bg-cover bg-center" style="background-image: url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgW_9a6RzzktwRdx5JafGMQzLWuGhS17oXnqSRyD_91XLG0L23DrK1SSO99CRxv7BXp5AAG24Qes6E6ykQK6gOsmzxMplRIj1Xlqnqoc_q2-_Fsk4o7FcrfRXqzsMaUald7D1QpHzeT5kTDfhczpC71IOi6h9isiDa6zWhvmA_AgXYqILkjAtInyPF6f7Y/s2048/BASADOS%20100%25%20EN%20EL%20CURRICULO%20NACIONAL%20PERUANO%20(1).png');">
+                     <div class="relative z-10 hidden lg:flex h-full flex-col justify-center items-center p-12 text-white bg-black bg-opacity-20">
+                        <h2 class="text-4xl font-extrabold mb-4 text-center">Genera sesiones, fichas, exámenes y más con solo un clic...</h2>
+                     </div>
                 </div>
                 
-                <!-- ===== SECCIÓN DE FORMULARIO (MITAD INFERIOR EN MÓVIL, DERECHA EN DESKTOP) ===== -->
-                <!-- overflow-y-auto permite scroll si el contenido es muy largo (ej. al abrir el teclado) -->
-                <div class="flex items-center justify-center p-6 sm:p-12 bg-white overflow-y-auto">
+                <div class="lg:w-1/2 h-1/2 lg:h-full flex items-center justify-center p-6 sm:p-12 bg-white overflow-y-auto">
                     <div class="w-full max-w-md">
                         <div id="login-screen">
                             <div class="text-center mb-8">
@@ -155,18 +150,16 @@
         </main>
     </div>
 
-    <!-- MODAL: CONFIRMACIÓN DE EMAIL -->
     <div id="email-confirmation-modal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center p-4 z-50">
         <div class="bg-white rounded-2xl shadow-xl p-8 sm:p-12 text-center max-w-md mx-auto transform transition-all scale-95 opacity-0 animate-fade-in-scale">
             <i data-lucide="mail-check" class="mx-auto text-green-600 mb-4" style="width: 4rem; height: 4rem; stroke-width: 1.5;"></i>
             <h2 class="text-2xl font-bold text-gray-800 mt-6 mb-3">¡Casi listo! Revisa tu correo</h2>
-            <p class="text-gray-600 mb-8">Te hemos enviado un enlace de confirmación. Haz clic en él para activar tu cuenta y poder iniciar sesión.</p>
+            <p class="text-gray-600 mb-8">Te hemos enviado un enlace de confirmación. Haz clic en él para activar tu cuenta y poder iniciar sesión. El remitente es SUPABASE.</p>
             <button id="accept-confirmation-btn" class="w-full h-[52px] flex items-center justify-center font-semibold text-lg text-white rounded-lg primary-button focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">Aceptar</button>
         </div>
     </div>
 
 
-    <!-- MODAL: ESTADO DE LA PRUEBA -->
     <div id="trial-status-modal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center p-4 z-50">
         <div class="bg-white rounded-2xl shadow-xl p-8 sm:p-12 text-center max-w-md mx-auto transform transition-all scale-95 opacity-0 animate-fade-in-scale">
             <i data-lucide="calendar-clock" class="mx-auto text-teal-600 mb-4" style="width: 4rem; height: 4rem; stroke-width: 1.5;"></i>
@@ -258,7 +251,7 @@
                 element.classList.remove('hidden');
             }
             
-            // Lógica de Autenticación con arquitectura robusta
+            // Lógica de Autenticación
             registerForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 toggleSpinner(registerForm, true);
@@ -290,7 +283,7 @@
                 toggleSpinner(loginForm, true);
                 loginError.classList.add('hidden');
                 
-                const { data, error } = await _supabase.auth.signInWithPassword({
+                const { error } = await _supabase.auth.signInWithPassword({
                     email: document.getElementById('login-email').value,
                     password: document.getElementById('login-password').value,
                 });
@@ -303,31 +296,8 @@
                     } else {
                          showMessage(loginError, 'Correo o contraseña incorrectos.', true);
                     }
-                } else if (data.user) {
-                    const registrationDate = new Date(data.user.created_at);
-                    const currentDate = new Date();
-                    const trialEndDate = new Date(registrationDate);
-                    trialEndDate.setDate(trialEndDate.getDate() + 15);
-
-                    const timeLeft = trialEndDate.getTime() - currentDate.getTime();
-                    const daysLeft = Math.ceil(timeLeft / (1000 * 60 * 60 * 24));
-
-                    if (daysLeft > 0 && daysLeft <= 15) {
-                        trialDaysSpan.textContent = daysLeft;
-                        if (daysLeft === 1) {
-                            trialVerbSpan.textContent = 'queda';
-                            trialNounSpan.textContent = 'día';
-                        } else {
-                            trialVerbSpan.textContent = 'quedan';
-                            trialNounSpan.textContent = 'días';
-                        }
-                        trialStatusModal.classList.remove('hidden');
-                        lucide.createIcons(); 
-                    } else {
-                        authView.classList.add('hidden');
-                        suiteDashboard.classList.remove('hidden');
-                    }
-                }
+                } 
+                // CAMBIO: La lógica de éxito se ha movido a onAuthStateChange para manejar todos los inicios de sesión (manual y por confirmación de correo) en un solo lugar.
             });
             
             recoveryForm.addEventListener('submit', async (e) => {
@@ -353,11 +323,49 @@
                 await _supabase.auth.signOut();
             });
 
+            // CAMBIO: Esta función centraliza el proceso de login exitoso
+            function handleSuccessfulLogin(user) {
+                const userName = user.user_metadata?.full_name || user.email;
+                userGreeting.textContent = `Bienvenido/a, ${userName}.`;
+            
+                const registrationDate = new Date(user.created_at);
+                const currentDate = new Date();
+                const trialEndDate = new Date(registrationDate);
+                trialEndDate.setDate(trialEndDate.getDate() + 15);
+            
+                const timeLeft = trialEndDate.getTime() - currentDate.getTime();
+                const daysLeft = Math.ceil(timeLeft / (1000 * 60 * 60 * 24));
+            
+                // Si la prueba ha expirado, el usuario no debería poder entrar.
+                // Esta lógica asume que el acceso se controla aquí.
+                if (daysLeft <= 0) {
+                     // Podrías mostrar un mensaje de "Prueba expirada" aquí.
+                     // Por ahora, simplemente lo llevamos al dashboard.
+                     authView.classList.add('hidden');
+                     suiteDashboard.classList.remove('hidden');
+                     return;
+                }
+            
+                // Mostrar modal de días restantes
+                trialDaysSpan.textContent = daysLeft;
+                if (daysLeft === 1) {
+                    trialVerbSpan.textContent = 'queda';
+                    trialNounSpan.textContent = 'día';
+                } else {
+                    trialVerbSpan.textContent = 'quedan';
+                    trialNounSpan.textContent = 'días';
+                }
+                trialStatusModal.classList.remove('hidden');
+                lucide.createIcons(); 
+            }
+
+            // CAMBIO: onAuthStateChange es ahora la única fuente de verdad para el estado de la sesión.
             _supabase.auth.onAuthStateChange(async (_event, session) => { 
                 if (session?.user) {
-                    const userName = session.user.user_metadata?.full_name || session.user.email;
-                    userGreeting.textContent = `Bienvenido/a, ${userName}.`;
+                    // Si hay un usuario, sin importar cómo se logueó, se ejecuta esta lógica.
+                    handleSuccessfulLogin(session.user);
                 } else {
+                    // Si no hay sesión, muestra la pantalla de autenticación.
                     authView.classList.remove('hidden');
                     suiteDashboard.classList.add('hidden');
                     loginForm.reset();
@@ -370,6 +378,7 @@
                 }
             });
 
+
             // Navegación entre formularios de Auth
             showRegisterLink.addEventListener('click', (e) => { e.preventDefault(); showAuthScreen(registerScreen); });
             showRecoveryLink.addEventListener('click', (e) => { e.preventDefault(); showAuthScreen(recoveryScreen); });
@@ -380,7 +389,7 @@
             acceptConfirmationBtn.addEventListener('click', () => {
                 emailConfirmationModal.classList.add('hidden');
                 registerForm.reset();
-                showAuthScreen(loginScreen); // Lleva al usuario a la pantalla de login
+                showAuthScreen(loginScreen);
             });
 
             acceptTrialStatusBtn.addEventListener('click', () => {
