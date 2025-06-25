@@ -49,7 +49,6 @@
             <div class="h-screen flex flex-col lg:flex-row">
 
                 <!-- ===== SECCIÓN DE IMAGEN (40% EN MÓVIL) ===== -->
-                <!-- CAMBIO: Altura reducida a h-2/5 (40%) en móvil para dar más espacio al formulario -->
                 <div class="relative lg:w-1/2 h-2/5 lg:h-full bg-cover bg-center" style="background-image: url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgW_9a6RzzktwRdx5JafGMQzLWuGhS17oXnqSRyD_91XLG0L23DrK1SSO99CRxv7BXp5AAG24Qes6E6ykQK6gOsmzxMplRIj1Xlqnqoc_q2-_Fsk4o7FcrfRXqzsMaUald7D1QpHzeT5kTDfhczpC71IOi6h9isiDa6zWhvmA_AgXYqILkjAtInyPF6f7Y/s2048/BASADOS%20100%25%20EN%20EL%20CURRICULO%20NACIONAL%20PERUANO%20(1).png');">
                      <div class="relative z-10 hidden lg:flex h-full flex-col justify-center items-center p-12 text-white bg-black bg-opacity-20">
                         <h2 class="text-4xl font-extrabold mb-4 text-center">Genera sesiones, fichas, exámenes y más con solo un clic...</h2>
@@ -57,7 +56,6 @@
                 </div>
                 
                 <!-- ===== SECCIÓN DE FORMULARIO (60% EN MÓVIL) ===== -->
-                <!-- CAMBIO: Altura aumentada a h-3/5 (60%) y padding ajustado (p-4) para que el contenido quepa sin scroll -->
                 <div class="lg:w-1/2 h-3/5 lg:h-full flex items-center justify-center p-4 sm:p-8 lg:p-12 bg-white overflow-y-auto">
                     <div class="w-full max-w-md">
                         <div id="login-screen">
@@ -176,6 +174,18 @@
             <button id="accept-trial-status-btn" class="w-full h-[52px] flex items-center justify-center font-semibold text-lg text-white rounded-lg primary-button focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">Continuar a la Suite</button>
         </div>
     </div>
+    
+    <!-- ===== MODAL: PRUEBA EXPIRADA ===== -->
+    <div id="trial-expired-modal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-2xl shadow-xl p-8 sm:p-12 text-center max-w-md mx-auto transform transition-all scale-95 opacity-0 animate-fade-in-scale">
+            <i data-lucide="calendar-x2" class="mx-auto text-red-600 mb-4" style="width: 4rem; height: 4rem; stroke-width: 1.5;"></i>
+            <h2 class="text-2xl font-bold text-gray-800 mt-6 mb-3">Tu Prueba Ha Expirado</h2>
+            <p class="text-gray-600 mb-8">
+                Tus 15 días de acceso gratuito han terminado. Para continuar usando la suite, por favor, contacta al soporte o suscríbete a un plan.
+            </p>
+            <button id="logout-from-expired-btn" class="w-full h-[52px] flex items-center justify-center font-semibold text-lg text-white rounded-lg bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">Cerrar Sesión</button>
+        </div>
+    </div>
 
 
     <div id="generator-modal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-90 z-40 flex flex-col p-2 sm:p-4 md:p-6">
@@ -198,6 +208,10 @@
             const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdzd3Z6ZGdvZ2FsYWhiY2Z4ZGJpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA3MjAwNzUsImV4cCI6MjA2NjI5NjA3NX0.3ieGReiMIQwfozDVtJyjIlpPJre1coeJtddqD3HJN-4'; 
             const { createClient } = supabase;
             const _supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+            
+            // ===== NUEVA BANDERA DE SESIÓN =====
+            // Esta variable controlará que el modal de prueba solo se muestre una vez.
+            let trialModalShownThisSession = false;
 
             // Selectores de Elementos
             const authView = document.getElementById('auth-view');
@@ -230,6 +244,10 @@
             const trialDaysSpan = document.getElementById('trial-days');
             const trialVerbSpan = document.getElementById('trial-verb');
             const trialNounSpan = document.getElementById('trial-noun');
+
+            const trialExpiredModal = document.getElementById('trial-expired-modal');
+            const logoutFromExpiredBtn = document.getElementById('logout-from-expired-btn');
+
 
             // Funciones Auxiliares
             function showAuthScreen(screenToShow) {
@@ -328,6 +346,7 @@
                 await _supabase.auth.signOut();
             });
 
+            // ===== FUNCIÓN DE LOGIN MODIFICADA =====
             function handleSuccessfulLogin(user) {
                 const userName = user.user_metadata?.full_name || user.email;
                 userGreeting.textContent = `Bienvenido/a, ${userName}.`;
@@ -341,29 +360,44 @@
                 const daysLeft = Math.ceil(timeLeft / (1000 * 60 * 60 * 24));
             
                 if (daysLeft <= 0) {
-                     authView.classList.add('hidden');
-                     suiteDashboard.classList.remove('hidden');
-                     return;
+                    trialExpiredModal.classList.remove('hidden');
+                    lucide.createIcons();
+                    return;
                 }
-            
-                trialDaysSpan.textContent = daysLeft;
-                if (daysLeft === 1) {
-                    trialVerbSpan.textContent = 'queda';
-                    trialNounSpan.textContent = 'día';
+                
+                // --- LÓGICA DEL MODAL DE PRUEBA ACTUALIZADA ---
+                // Solo mostramos el modal si NO ha sido mostrado antes en esta sesión.
+                if (!trialModalShownThisSession) {
+                    trialDaysSpan.textContent = daysLeft;
+                    if (daysLeft === 1) {
+                        trialVerbSpan.textContent = 'queda';
+                        trialNounSpan.textContent = 'día';
+                    } else {
+                        trialVerbSpan.textContent = 'quedan';
+                        trialNounSpan.textContent = 'días';
+                    }
+                    trialStatusModal.classList.remove('hidden');
+                    lucide.createIcons(); 
+                    // Marcamos la bandera para no volver a mostrarlo.
+                    trialModalShownThisSession = true;
                 } else {
-                    trialVerbSpan.textContent = 'quedan';
-                    trialNounSpan.textContent = 'días';
+                    // Si ya se mostró, simplemente mostramos el dashboard directamente.
+                    authView.classList.add('hidden');
+                    suiteDashboard.classList.remove('hidden');
                 }
-                trialStatusModal.classList.remove('hidden');
-                lucide.createIcons(); 
             }
 
             _supabase.auth.onAuthStateChange(async (_event, session) => { 
                 if (session?.user) {
                     handleSuccessfulLogin(session.user);
                 } else {
+                    // El usuario ha cerrado sesión o no está autenticado
                     authView.classList.remove('hidden');
                     suiteDashboard.classList.add('hidden');
+                    
+                    // ===== SE RESTABLECE LA BANDERA AL CERRAR SESIÓN =====
+                    trialModalShownThisSession = false;
+
                     loginForm.reset();
                     registerForm.reset();
                     recoveryForm.reset();
@@ -393,6 +427,12 @@
                 authView.classList.add('hidden');
                 suiteDashboard.classList.remove('hidden');
             });
+            
+            logoutFromExpiredBtn.addEventListener('click', async () => {
+                trialExpiredModal.classList.add('hidden');
+                await _supabase.auth.signOut();
+            });
+
 
             generatorGrid.addEventListener('click', (e) => {
                 const card = e.target.closest('.generator-card');
