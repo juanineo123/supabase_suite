@@ -30,34 +30,52 @@
         .hidden { display: none; }
         .spinner { width: 24px; height: 24px; border: 3px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: #fff; animation: spin 1s ease-in-out infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
-        @media (max-width: 1023px) {
-            .mobile-auth-bg { background-image: url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgW_9a6RzzktwRdx5JafGMQzLWuGhS17oXnqSRyD_91XLG0L23DrK1SSO99CRxv7BXp5AAG24Qes6E6ykQK6gOsmzxMplRIj1Xlqnqoc_q2-_Fsk4o7FcrfRXqzsMaUald7D1QpHzeT5kTDfhczpC71IOi6h9isiDa6zWhvmA_AgXYqILkjAtInyPF6f7Y/s2048/BASADOS%20100%25%20EN%20EL%20CURRICULO%20NACIONAL%20PERUANO%20(1).png'); background-size: cover; background-position: center center; }
-            .mobile-auth-bg::before { content: ''; position: absolute; inset: 0; background-color: rgba(0, 0, 0, 0.5); z-index: 1; }
-            .mobile-auth-bg > div { position: relative; z-index: 2; }
-        }
+        /* Se eliminó la clase .mobile-auth-bg porque ahora se controla con Tailwind */
         .iframe-container { -webkit-overflow-scrolling: touch; overflow: auto; }
+         @keyframes fade-in-scale { 
+            to { 
+                transform: scale(1); 
+                opacity: 1; 
+            } 
+        }
+        .animate-fade-in-scale {
+            animation: fade-in-scale 0.4s ease-out forwards;
+        }
     </style>
 </head>
 <body>
 
     <div id="page-container">
         <div id="auth-view">
-            <div class="min-h-screen lg:grid lg:grid-cols-2">
-                <div class="hidden lg:flex flex-col justify-center items-center p-12 bg-gradient-to-br from-teal-500 to-green-600 text-white relative">
-                    <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgW_9a6RzzktwRdx5JafGMQzLWuGhS17oXnqSRyD_91XLG0L23DrK1SSO99CRxv7BXp5AAG24Qes6E6ykQK6gOsmzxMplRIj1Xlqnqoc_q2-_Fsk4o7FcrfRXqzsMaUald7D1QpHzeT5kTDfhczpC71IOi6h9isiDa6zWhvmA_AgXYqILkjAtInyPF6f7Y/s2048/BASADOS%20100%25%20EN%20EL%20CURRICULO%20NACIONAL%20PERUANO%20(1).png');">
-                         <div class="absolute inset-0 bg-black opacity-40"></div>
+            <!-- Contenedor principal ahora usa flex-col por defecto y grid en pantallas grandes -->
+            <div class="min-h-screen flex flex-col lg:grid lg:grid-cols-2">
+
+                <!-- ===== SECCIÓN DE IMAGEN (IZQUIERDA EN DESKTOP, ARRIBA EN MÓVIL) ===== -->
+                <div class="relative">
+                    <!-- Imagen para móvil (visible solo en pantallas pequeñas) -->
+                    <div class="lg:hidden">
+                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgW_9a6RzzktwRdx5JafGMQzLWuGhS17oXnqSRyD_91XLG0L23DrK1SSO99CRxv7BXp5AAG24Qes6E6ykQK6gOsmzxMplRIj1Xlqnqoc_q2-_Fsk4o7FcrfRXqzsMaUald7D1QpHzeT5kTDfhczpC71IOi6h9isiDa6zWhvmA_AgXYqILkjAtInyPF6f7Y/s2048/BASADOS%20100%25%20EN%20EL%20CURRICULO%20NACIONAL%20PERUANO%20(1).png" alt="Herramientas para docentes peruanos" class="w-full h-48 object-cover">
                     </div>
-                     <div class="relative z-10 text-center">
-                        <h2 class="text-4xl font-extrabold mb-4">Genera sesiones, fichas, exámenes, unidades, programaciones, proyectos y mucho más con solo un clic...</h2>
-                     </div>
+
+                    <!-- Panel para desktop (oculto en pantallas pequeñas) -->
+                    <div class="hidden lg:flex flex-col justify-center items-center p-12 text-white h-full">
+                        <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgW_9a6RzzktwRdx5JafGMQzLWuGhS17oXnqSRyD_91XLG0L23DrK1SSO99CRxv7BXp5AAG24Qes6E6ykQK6gOsmzxMplRIj1Xlqnqoc_q2-_Fsk4o7FcrfRXqzsMaUald7D1QpHzeT5kTDfhczpC71IOi6h9isiDa6zWhvmA_AgXYqILkjAtInyPF6f7Y/s2048/BASADOS%20100%25%20EN%20EL%20CURRICULO%20NACIONAL%20PERUANO%20(1).png');">
+                             <!-- El overlay oscuro solo aplica en desktop -->
+                             <div class="absolute inset-0 bg-black opacity-40"></div>
+                        </div>
+                         <div class="relative z-10 text-center">
+                            <h2 class="text-4xl font-extrabold mb-4">Genera sesiones, fichas, exámenes, unidades, programaciones, proyectos y mucho más con solo un clic...</h2>
+                         </div>
+                    </div>
                 </div>
                 
-                <div class="flex items-center justify-center p-6 sm:p-12 min-h-screen relative mobile-auth-bg">
+                <!-- ===== SECCIÓN DE FORMULARIO (DERECHA EN DESKTOP, ABAJO EN MÓVIL) ===== -->
+                <div class="flex flex-grow items-center justify-center p-6 sm:p-12 bg-white">
                     <div class="w-full max-w-md">
                         <div id="login-screen">
                             <div class="text-center mb-8">
                                 <h1 class="text-3xl font-bold text-gray-800">BIENVENIDO A LA SUITE DOCENTE</h1>
-                                <p class="text-gray-500 mt-2">accede a 15 días de prueba totalmente gratis al registrarte.</p>
+                                <p class="text-gray-500 mt-2">Accede a 15 días de prueba totalmente gratis al registrarte.</p>
                             </div>
                             <form id="login-form" class="space-y-4">
                                 <div>
@@ -148,30 +166,20 @@
         </main>
     </div>
 
-    <div id="success-modal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center p-4 z-50">
+    <!-- MODAL: CONFIRMACIÓN DE EMAIL -->
+    <div id="email-confirmation-modal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center p-4 z-50">
         <div class="bg-white rounded-2xl shadow-xl p-8 sm:p-12 text-center max-w-md mx-auto transform transition-all scale-95 opacity-0 animate-fade-in-scale">
-            <svg class="mx-auto text-yellow-500" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M11.33 5H12.67"/><path d="M12 3V5"/><path d="M15.32 6.68L16.32 5.68"/><path d="M16 3L17 4"/><path d="M19 11.33V12.67"/><path d="M21 12H19"/><path d="M16.32 18.32L15.32 17.32"/><path d="M17 20L16 19"/><path d="M12.67 19H11.33"/><path d="M12 21V19"/><path d="M7.68 17.32L8.68 18.32"/><path d="M7 19L8 20"/><path d="M5 12.67V11.33"/><path d="M3 12H5"/><path d="M8.68 5.68L7.68 6.68"/><path d="M8 4L7 3"/><path d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/>
-            </svg>
-            <h2 class="text-2xl font-bold text-gray-800 mt-6 mb-3">¡Felicitaciones!</h2>
-            <p class="text-gray-600 mb-8">Has conseguido 15 días de uso gratuito con tu registro.</p>
-            <button id="accept-welcome-btn" class="w-full h-[52px] flex items-center justify-center font-semibold text-lg text-white rounded-lg primary-button focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">Aceptar</button>
+            <i data-lucide="mail-check" class="mx-auto text-green-600 mb-4" style="width: 4rem; height: 4rem; stroke-width: 1.5;"></i>
+            <h2 class="text-2xl font-bold text-gray-800 mt-6 mb-3">¡Casi listo! Revisa tu correo</h2>
+            <p class="text-gray-600 mb-8">Te hemos enviado un enlace de confirmación. Haz clic en él para activar tu cuenta y poder iniciar sesión el remitente es: SUPABASE.</p>
+            <button id="accept-confirmation-btn" class="w-full h-[52px] flex items-center justify-center font-semibold text-lg text-white rounded-lg primary-button focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">Aceptar</button>
         </div>
-         <style>
-            @keyframes fade-in-scale { 
-                to { 
-                    transform: scale(1); 
-                    opacity: 1; 
-                } 
-            }
-            .animate-fade-in-scale {
-                animation: fade-in-scale 0.4s ease-out forwards;
-            }
-         </style>
     </div>
 
+
+    <!-- MODAL: ESTADO DE LA PRUEBA -->
     <div id="trial-status-modal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center p-4 z-50">
-        <div class="bg-white rounded-2xl shadow-xl p-8 sm:p-12 text-center max-w-md mx-auto">
+        <div class="bg-white rounded-2xl shadow-xl p-8 sm:p-12 text-center max-w-md mx-auto transform transition-all scale-95 opacity-0 animate-fade-in-scale">
             <i data-lucide="calendar-clock" class="mx-auto text-teal-600 mb-4" style="width: 4rem; height: 4rem; stroke-width: 1.5;"></i>
             <h2 class="text-2xl font-bold text-gray-800 mt-6 mb-3">Estado de tu Prueba</h2>
             <p class="text-gray-600 text-lg mb-8">
@@ -221,14 +229,14 @@
             const showLoginFromRecoveryLink = document.getElementById('show-login-from-recovery');
             const userGreeting = document.getElementById('user-greeting');
             const logoutButton = document.getElementById('logout-button');
-            const successModal = document.getElementById('success-modal');
-            const acceptWelcomeBtn = document.getElementById('accept-welcome-btn');
             const generatorModal = document.getElementById('generator-modal');
             const closeGeneratorBtn = document.getElementById('close-generator-btn');
             const generatorIframe = document.getElementById('generator-iframe');
             const generatorGrid = document.getElementById('generator-grid');
             
-            // ===== NUEVOS SELECTORES PARA EL MODAL DE PRUEBA =====
+            // Selectores para los modales
+            const emailConfirmationModal = document.getElementById('email-confirmation-modal');
+            const acceptConfirmationBtn = document.getElementById('accept-confirmation-btn');
             const trialStatusModal = document.getElementById('trial-status-modal');
             const acceptTrialStatusBtn = document.getElementById('accept-trial-status-btn');
             const trialDaysSpan = document.getElementById('trial-days');
@@ -283,7 +291,8 @@
                 }
                 
                 if (authData.user) {
-                    successModal.classList.remove('hidden');
+                    emailConfirmationModal.classList.remove('hidden');
+                    lucide.createIcons();
                 }
             });
 
@@ -300,20 +309,21 @@
                 toggleSpinner(loginForm, false);
 
                 if (error) {
-                    showMessage(loginError, 'Correo o contraseña incorrectos.', true);
+                    if (error.message.includes('Email not confirmed')) {
+                         showMessage(loginError, 'Aún no has confirmado tu correo. Revisa tu bandeja de entrada.', true);
+                    } else {
+                         showMessage(loginError, 'Correo o contraseña incorrectos.', true);
+                    }
                 } else if (data.user) {
-                    // ===== LÓGICA MODIFICADA PARA VERIFICAR LA PRUEBA =====
                     const registrationDate = new Date(data.user.created_at);
                     const currentDate = new Date();
                     const trialEndDate = new Date(registrationDate);
                     trialEndDate.setDate(trialEndDate.getDate() + 15);
 
                     const timeLeft = trialEndDate.getTime() - currentDate.getTime();
-                    // Math.ceil para redondear hacia arriba y contar el último día completo
                     const daysLeft = Math.ceil(timeLeft / (1000 * 60 * 60 * 24));
 
                     if (daysLeft > 0 && daysLeft <= 15) {
-                        // La prueba está activa, mostramos el modal con los días restantes.
                         trialDaysSpan.textContent = daysLeft;
                         if (daysLeft === 1) {
                             trialVerbSpan.textContent = 'queda';
@@ -323,9 +333,8 @@
                             trialNounSpan.textContent = 'días';
                         }
                         trialStatusModal.classList.remove('hidden');
-                        lucide.createIcons(); // Vuelve a renderizar los íconos por si hay uno nuevo
+                        lucide.createIcons(); 
                     } else {
-                        // La prueba terminó, vamos directo al panel.
                         authView.classList.add('hidden');
                         suiteDashboard.classList.remove('hidden');
                     }
@@ -379,13 +388,12 @@
             showLoginFromRecoveryLink.addEventListener('click', (e) => { e.preventDefault(); showAuthScreen(loginScreen); });
 
             // Lógica para los Modales
-            acceptWelcomeBtn.addEventListener('click', () => {
-                successModal.classList.add('hidden');
-                authView.classList.add('hidden');
-                suiteDashboard.classList.remove('hidden');
+            acceptConfirmationBtn.addEventListener('click', () => {
+                emailConfirmationModal.classList.add('hidden');
+                registerForm.reset();
+                showAuthScreen(loginScreen); // Lleva al usuario a la pantalla de login
             });
 
-            // ===== NUEVO EVENT LISTENER PARA EL MODAL DE PRUEBA =====
             acceptTrialStatusBtn.addEventListener('click', () => {
                 trialStatusModal.classList.add('hidden');
                 authView.classList.add('hidden');
