@@ -300,30 +300,44 @@
                 sessionStorage.setItem('welcomeShown', 'true');
             });
 
-            // --- INICIO DE LA MODIFICACIÓN: Lógica para abrir y cerrar el iframe de los generadores ---
-            generatorGrid.addEventListener('click', (e) => {
-                const card = e.target.closest('.generator-card');
-                if (card) {
-                    // Si la tarjeta está deshabilitada, no hacemos nada.
-                    if (card.classList.contains('is-disabled')) {
-                        e.preventDefault();
-                        return;
-                    }
+            generatorGrid.addEventListener('click', async (e) => { // 'async' es nuevo, necesario para esperar a Supabase.
+    const card = e.target.closest('.generator-card');
+    if (card) {
+        
+        // --- TU LÓGICA 1 (INTACTA) ---
+        if (card.classList.contains('is-disabled')) {
+            e.preventDefault();
+            return;
+        }
 
-                    // Si la tarjeta abre en una nueva pestaña, dejamos que el navegador actúe.
-                    if (card.hasAttribute('target') && card.getAttribute('target') === '_blank') {
-                        return; 
-                    }
-                    
-                    // Para el resto de tarjetas, abrimos el modal.
-                    e.preventDefault();
-                    generatorIframe.src = card.href;
-                    generatorModal.classList.remove('hidden');
-                    document.body.style.overflow = 'hidden';
-                    lucide.createIcons();
-                }
-            });
-            // --- FIN DE LA MODIFICACIÓN ---
+        // --- TU LÓGICA 2 (INTACTA) ---
+        if (card.hasAttribute('target') && card.getAttribute('target') === '_blank') {
+            return; 
+        }
+        
+        // --- TU LÓGICA 3 (INTACTA) ---
+        e.preventDefault();
+
+        // **** NUEVO PASO: OBTENER LA "LLAVE" DE LA SESIÓN ****
+        const { data: { session } } = await _supabase.auth.getSession();
+
+        if (session) {
+            // Creamos la nueva URL con la llave
+            const urlConLlave = `${card.href}#access_token=${session.access_token}&refresh_token=${session.refresh_token}`;
+            
+            // --- TU LÓGICA 4 (INTACTA, solo cambia la URL que se usa) ---
+            generatorIframe.src = urlConLlave; // Se usa la nueva URL con la llave.
+            generatorModal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            lucide.createIcons();
+            // -----------------------------------------------------------
+
+        } else {
+            // Nuevo paso de seguridad: si no hay sesión, no hace nada o recarga.
+            window.location.reload();
+        }
+    }
+});
 
             closeGeneratorBtn.addEventListener('click', () => {
                 generatorModal.classList.add('hidden');
