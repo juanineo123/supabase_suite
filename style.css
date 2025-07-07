@@ -1,0 +1,26 @@
+/* Tema "Serenidad Profesional" */
+body { font-family: 'Manrope', sans-serif; background-color: #f9fafb; color: #1f2937; }
+.generator-card { display: block; border-radius: 1rem; transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03); }
+.generator-card:hover { transform: translateY(-5px); box-shadow: 0 10px 15px -3px rgba(13, 148, 136, 0.1), 0 4px 6px -2px rgba(13, 148, 136, 0.08); filter: brightness(1.05); }
+.lucide { width: 2.5rem; height: 2.5rem; stroke-width: 1.5; }
+.primary-button { background: linear-gradient(to right, #0d9488, #059669); transition: all .3s ease; }
+.primary-button:hover { box-shadow: 0 4px 15px rgba(13, 148, 136, 0.3); transform: translateY(-2px); }
+.secondary-button { background-color: transparent; border: 2px solid #0d9488; color: #0d9488; transition: all .3s ease; }
+.secondary-button:hover { background-color: #0d9488; color: white; transform: translateY(-2px); box-shadow: 0 4px 15px rgba(13, 148, 136, 0.2); }
+.primary-link { color: #0d9488; }
+.primary-link:hover { color: #059669; }
+.custom-input { background-color: #f9fafb; border: 1px solid #e5e7eb; transition: ring 0.2s ease, border-color 0.2s ease; }
+.custom-input:focus { background-color: white; border-color: #0d9488; ring: 2px; --tw-ring-color: rgba(13, 148, 136, 0.3); }
+.hidden { display: none; }
+.spinner { width: 24px; height: 24px; border: 3px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: #fff; animation: spin 1s ease-in-out infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.iframe-container { -webkit-overflow-scrolling: touch; overflow: auto; }
+ @keyframes fade-in-scale { 
+    to { 
+        transform: scale(1); 
+        opacity: 1; 
+    } 
+}
+.animate-fade-in-scale {
+    animation: fade-in-scale 0.4s ease-out forwards;
+}
