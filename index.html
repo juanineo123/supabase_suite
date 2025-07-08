@@ -11,26 +11,23 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- Se restaura el enlace a tu hoja de estilos original -->
     <link rel="stylesheet" href="style.css">
 
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+    <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
 </head>
 <body>
 
     <div id="page-container">
-        <!-- Vista de Autenticación (Login, Registro, etc.) -->
         <div id="auth-view">
             <div class="h-screen flex flex-col lg:flex-row">
-                <!-- Se restaura tu imagen de fondo original -->
                 <div class="relative lg:w-1/2 h-2/5 lg:h-full bg-cover bg-center" style="background-image: url('images/login-bg.png');">
                 </div>
                 
                 <div class="lg:w-1/2 h-3/5 lg:h-full flex items-center justify-center p-4 sm:p-8 lg:p-12 bg-white overflow-y-auto">
                     <div class="w-full max-w-md">
-                        <!-- Pantalla de Login -->
                         <div id="login-screen">
                             <div class="text-center mb-8">
                                 <h1 class="text-3xl font-bold text-gray-800">BIENVENIDO A LA SUITE DOCENTE</h1>
@@ -47,19 +44,20 @@
                                 <a href="#" id="show-register" class="w-full h-[52px] flex items-center justify-center font-semibold text-lg rounded-lg secondary-button">¿No tienes una cuenta? Regístrate</a>
                             </div>
                         </div>
-                        <!-- Pantalla de Registro -->
                         <div id="register-screen" class="hidden">
                             <div class="text-center mb-8"><h1 class="text-3xl font-bold text-gray-800">Crear una Cuenta Nueva</h1><p class="text-gray-500 mt-2">Únete a la suite para transformar tu enseñanza.</p></div>
                             <form id="register-form" class="space-y-4">
                                 <div><input id="register-name" type="text" autocomplete="name" required class="w-full px-4 py-3 rounded-lg custom-input" placeholder="Nombre completo"></div>
                                 <div><input id="register-email" type="email" autocomplete="email" required class="w-full px-4 py-3 rounded-lg custom-input" placeholder="Correo electrónico"></div>
                                 <div><input id="register-password" type="password" autocomplete="new-password" required class="w-full px-4 py-3 rounded-lg custom-input" placeholder="Crea una contraseña (mín. 6 caracteres)"></div>
+                                
+                                <div class="h-captcha" data-sitekey="7e60c678-9432-41ce-8ac0-a0169f5ee280"></div>
+                                
                                 <button type="submit" class="w-full h-[52px] flex items-center justify-center font-semibold text-lg text-white rounded-lg primary-button focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"><span class="button-text">Registrarme</span><div class="spinner hidden"></div></button>
                             </form>
                             <p id="register-message" class="text-center hidden mt-4 text-sm"></p>
                             <div class="text-center text-sm text-gray-500 mt-6"><p>¿Ya tienes una cuenta? <a href="#" id="show-login-from-register" class="font-medium primary-link">Inicia sesión</a></p></div>
                         </div>
-                        <!-- Pantalla de Recuperación de Contraseña -->
                         <div id="recovery-screen" class="hidden">
                              <div class="text-center mb-8"><h1 class="text-3xl font-bold text-gray-800">Restablecer Contraseña</h1><p class="text-gray-500 mt-2">Ingresa tu correo y te enviaremos las instrucciones.</p></div>
                             <form id="recovery-form" class="space-y-4">
@@ -74,7 +72,6 @@
             </div>
         </div>
 
-        <!-- Dashboard Principal de la Suite -->
         <main id="suite-dashboard" class="hidden min-h-screen p-4 sm:p-8">
             <header class="flex justify-between items-center mb-12 max-w-7xl mx-auto">
                 <div class="text-left"><h1 class="text-2xl md:text-3xl font-bold text-gray-900">Suite de Generadores</h1><p id="user-greeting" class="text-gray-600">Bienvenido/a.</p></div>
@@ -91,14 +88,11 @@
                  <a href="https://stalwart-buttercream-8c9f0d.netlify.app/" class="generator-card bg-orange-50 border-2 border-orange-200"><div class="p-6 h-full flex flex-col items-center text-center"> <i data-lucide="notebook-pen" class="lucide text-orange-600 mb-4"></i> <h3 class="text-xl font-bold mb-2 text-gray-800">Registros Auxiliares</h3> <p class="text-gray-500 text-sm flex-grow">Gestiona y crea registros de notas de forma automática.</p> </div></a>
                  <a href="https://carpetasderecuperacion.netlify.app/" class="generator-card bg-cyan-50 border-2 border-cyan-200"><div class="p-6 h-full flex flex-col items-center text-center"> <i data-lucide="folder-sync" class="lucide text-cyan-600 mb-4"></i> <h3 class="text-xl font-bold mb-2 text-gray-800">Carpetas de Recuperación</h3> <p class="text-gray-500 text-sm flex-grow">Crea planes y materiales para el periodo de recuperación.</p> </div></a>
                  <a href="https://play.google.com/store/apps/details?id=com.juancaicedo.maestros" class="generator-card bg-lime-50 border-2 border-lime-200" target="_blank" rel="noopener noreferrer"><div class="p-6 h-full flex flex-col items-center text-center"> <i data-lucide="smartphone" class="lucide text-lime-600 mb-4"></i> <h3 class="text-xl font-bold mb-2 text-gray-800">Descarga Nuestra App</h3> <p class="text-gray-500 text-sm flex-grow">Lleva la suite contigo a todas partes en tu móvil.</p> </div></a>
-                 <!-- INICIO DE LA MODIFICACIÓN: Tarjeta Inactiva -->
                  <a href="#" class="generator-card is-disabled bg-slate-50 border-2 border-slate-200 opacity-75 hover:opacity-100"><div class="p-6 h-full flex flex-col items-center text-center"> <i data-lucide="hourglass" class="lucide text-slate-500 mb-4"></i> <h3 class="text-xl font-bold mb-2 text-gray-800">Próximamente</h3> <p class="text-gray-500 text-sm flex-grow">Estamos preparando una nueva y potente herramienta para ti.</p> </div></a>
-                 <!-- FIN DE LA MODIFICACIÓN -->
             </div>
         </main>
     </div>
 
-    <!-- Modales (Ventanas Emergentes) -->
     <div id="email-confirmation-modal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center p-4 z-50">
         <div class="bg-white rounded-2xl shadow-xl p-8 sm:p-12 text-center max-w-md mx-auto transform transition-all scale-95 opacity-0 animate-fade-in-scale">
             <i data-lucide="mail-check" class="mx-auto text-green-600 mb-4" style="width: 4rem; height: 4rem; stroke-width: 1.5;"></i>
@@ -108,7 +102,6 @@
         </div>
     </div>
     
-    <!-- NUEVO MODAL DE BIENVENIDA -->
     <div id="welcome-message-modal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center p-4 z-50">
         <div class="bg-white rounded-2xl shadow-xl p-8 sm:p-12 text-center max-w-md mx-auto animate-fade-in-scale">
             <i data-lucide="gift" class="mx-auto text-teal-600 mb-4" style="width: 4rem; height: 4rem; stroke-width: 1.5;"></i>
@@ -120,7 +113,6 @@
         </div>
     </div>
 
-    <!-- Modal para el Iframe del Generador -->
     <div id="generator-modal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-90 z-40 flex flex-col p-2 sm:p-4 md:p-6">
         <div class="w-full flex justify-end flex-shrink-0 mb-2">
             <button id="close-generator-btn" class="bg-red-600 hover:bg-red-700 text-white rounded-full p-2 transition-transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-white">
@@ -197,21 +189,58 @@
             }
             
             // --- LÓGICA DE AUTENTICACIÓN ---
+
+            // PASO 3: LÓGICA DE REGISTRO ACTUALIZADA CON HCAPTCHA
             registerForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
+
+                // 1. Obtenemos el token que genera hCaptcha cuando el usuario interactúa con él.
+                const hcaptchaResponse = document.querySelector('[name="h-captcha-response"]');
+                const captchaToken = hcaptchaResponse ? hcaptchaResponse.value : null;
+
+                // 2. Verificamos si el usuario completó el captcha. Si no, mostramos un error.
+                if (!captchaToken) {
+                    showMessage(registerMessage, 'Por favor, completa el desafío "Soy humano".', true);
+                    return; // Detenemos el registro si no hay token.
+                }
+
                 toggleSpinner(registerForm, true);
                 registerMessage.classList.add('hidden');
+
+                // 3. Enviamos el token a Supabase junto con el resto de los datos del usuario.
                 const { data, error } = await _supabase.auth.signUp({
                     email: document.getElementById('register-email').value,
                     password: document.getElementById('register-password').value,
-                    options: { data: { full_name: document.getElementById('register-name').value } } 
+                    options: {
+                        data: {
+                            full_name: document.getElementById('register-name').value
+                        },
+                        captchaToken: captchaToken // ¡Aquí va la magia!
+                    }
                 });
-                toggleSpinner(registerForm, false); 
+
+                toggleSpinner(registerForm, false);
+                
                 if (error) {
-                    showMessage(registerMessage, error.message.includes('User already registered') ? 'Este correo ya está registrado.' : `Error: ${error.message}`, true);
+                    // Mejoramos el manejo de errores para ser más específicos.
+                    if (error.message.includes('captcha')) {
+                         showMessage(registerMessage, 'La verificación del captcha ha fallado. Por favor, inténtalo de nuevo.', true);
+                    } else if (error.message.includes('rate limit')) {
+                         showMessage(registerMessage, 'Se han realizado demasiados intentos. Por favor, espera un momento y vuelve a intentarlo.', true);
+                    } else if (error.message.includes('User already registered')) {
+                        showMessage(registerMessage, 'Este correo ya está registrado.', true);
+                    } else {
+                         showMessage(registerMessage, `Error: ${error.message}`, true);
+                    }
                 } else if (data.user) {
+                    // Mostramos el modal de confirmación, que ahora es más relevante que nunca.
                     emailConfirmationModal.classList.remove('hidden');
                     lucide.createIcons();
+                }
+
+                // Reseteamos el captcha para que puedan volver a intentarlo si hay un error.
+                if (window.hcaptcha) {
+                    hcaptcha.reset();
                 }
             });
 
@@ -300,44 +329,36 @@
                 sessionStorage.setItem('welcomeShown', 'true');
             });
 
-            generatorGrid.addEventListener('click', async (e) => { // 'async' es nuevo, necesario para esperar a Supabase.
-    const card = e.target.closest('.generator-card');
-    if (card) {
-        
-        // --- TU LÓGICA 1 (INTACTA) ---
-        if (card.classList.contains('is-disabled')) {
-            e.preventDefault();
-            return;
-        }
+            generatorGrid.addEventListener('click', async (e) => {
+                const card = e.target.closest('.generator-card');
+                if (card) {
+                    
+                    if (card.classList.contains('is-disabled')) {
+                        e.preventDefault();
+                        return;
+                    }
 
-        // --- TU LÓGICA 2 (INTACTA) ---
-        if (card.hasAttribute('target') && card.getAttribute('target') === '_blank') {
-            return; 
-        }
-        
-        // --- TU LÓGICA 3 (INTACTA) ---
-        e.preventDefault();
+                    if (card.hasAttribute('target') && card.getAttribute('target') === '_blank') {
+                        return; 
+                    }
+                    
+                    e.preventDefault();
 
-        // **** NUEVO PASO: OBTENER LA "LLAVE" DE LA SESIÓN ****
-        const { data: { session } } = await _supabase.auth.getSession();
+                    const { data: { session } } = await _supabase.auth.getSession();
 
-        if (session) {
-            // Creamos la nueva URL con la llave
-            const urlConLlave = `${card.href}#access_token=${session.access_token}&refresh_token=${session.refresh_token}`;
-            
-            // --- TU LÓGICA 4 (INTACTA, solo cambia la URL que se usa) ---
-            generatorIframe.src = urlConLlave; // Se usa la nueva URL con la llave.
-            generatorModal.classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
-            lucide.createIcons();
-            // -----------------------------------------------------------
+                    if (session) {
+                        const urlConLlave = `${card.href}#access_token=${session.access_token}&refresh_token=${session.refresh_token}`;
+                        
+                        generatorIframe.src = urlConLlave;
+                        generatorModal.classList.remove('hidden');
+                        document.body.style.overflow = 'hidden';
+                        lucide.createIcons();
 
-        } else {
-            // Nuevo paso de seguridad: si no hay sesión, no hace nada o recarga.
-            window.location.reload();
-        }
-    }
-});
+                    } else {
+                        window.location.reload();
+                    }
+                }
+            });
 
             closeGeneratorBtn.addEventListener('click', () => {
                 generatorModal.classList.add('hidden');
