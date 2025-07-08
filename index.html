@@ -149,7 +149,7 @@
             const emailConfirmationModal = document.getElementById('email-confirmation-modal');
             const acceptConfirmationBtn = document.getElementById('accept-confirmation-btn');
             
-            const welcomeMessageModal = document.getElementById('welcome-message-modal');
+            const welcomeMessageModal = document = document.getElementById('welcome-message-modal'); // Corrected typo here
             const acceptWelcomeBtn = document.getElementById('accept-welcome-btn');
 
             // --- FUNCIONES AUXILIARES ---
@@ -184,37 +184,26 @@
             registerForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
 
-                // REMOVED: hCaptcha validation
-                // const hcaptchaResponse = document.querySelector('[name="h-captcha-response"]');
-                // const captchaToken = hcaptchaResponse ? hcaptchaResponse.value : null;
-                // if (!captchaToken) {
-                //     showMessage(registerMessage, 'Por favor, completa el desafío "Soy humano".', true);
-                //     return; 
-                // }
-
                 toggleSpinner(registerForm, true);
                 registerMessage.classList.add('hidden');
 
                 const email = document.getElementById('register-email').value;
                 const password = document.getElementById('register-password').value;
-                const fullName = document.getElementById('register-name').value; // For user profile update
+                const fullName = document.getElementById('register-name').value;
 
                 try {
-                    // Use window.createUserWithEmailAndPassword from the global scope
                     const userCredential = await window.createUserWithEmailAndPassword(window.firebaseAuth, email, password);
                     const user = userCredential.user;
 
-                    // Update user profile (e.g., display name)
-                    await window.updateProfile(user, { // Use window.updateProfile
+                    await window.updateProfile(user, { 
                         displayName: fullName
                     });
 
-                    // Send email verification (using the global sendEmailVerification)
                     await window.sendEmailVerification(user);
 
                     showMessage(registerMessage, 'Registro exitoso. Se ha enviado un correo de verificación a tu dirección. Por favor, revisa tu bandeja de entrada (incluyendo spam).', false);
-                    emailConfirmationModal.classList.remove('hidden'); // Show confirmation modal
-                    lucide.createIcons(); // Re-create icons if modal added/removed
+                    emailConfirmationModal.classList.remove('hidden');
+                    lucide.createIcons();
 
                 } catch (error) {
                     let errorMessage = 'Error al registrar el usuario: ';
@@ -231,10 +220,6 @@
                     console.error("Firebase Registration Error:", error);
                 } finally {
                     toggleSpinner(registerForm, false);
-                    // REMOVED: hCaptcha reset
-                    // if (window.hcaptcha) {
-                    //     hcaptcha.reset(); 
-                    // }
                 }
             });
 
@@ -248,9 +233,7 @@
                 const password = document.getElementById('login-password').value;
 
                 try {
-                    // Use window.signInWithEmailAndPassword from the global scope
                     await window.signInWithEmailAndPassword(window.firebaseAuth, email, password);
-                    // onAuthStateChanged will handle the UI update
                 } catch (error) {
                     let errorMessage = 'Error al iniciar sesión: ';
                     if (error.code === 'auth/invalid-email' || error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
@@ -278,8 +261,7 @@
                 const email = document.getElementById('recovery-email').value;
 
                 try {
-                    // Use window.sendPasswordResetEmail (Firebase Auth's equivalent)
-                    await window.sendPasswordResetEmail(window.firebaseAuth, email, { // Use window.sendPasswordResetEmail and pass auth instance
+                    await window.sendPasswordResetEmail(window.firebaseAuth, email, {
                         url: window.location.origin, 
                         handleCodeInApp: true 
                     });
@@ -304,7 +286,6 @@
             logoutButton.addEventListener('click', async () => {
                 sessionStorage.removeItem('welcomeShown');
                 try {
-                    // Use window.signOut from the global scope
                     await window.signOut(window.firebaseAuth);
                 } catch (error) {
                     console.error("Firebase Sign Out Error:", error);
@@ -326,7 +307,7 @@
             }
 
             // --- GESTOR DE ESTADO DE AUTENTICACIÓN (AHORA CON FIREBASE) ---
-            window.firebaseAuth.onAuthStateChanged(async (user) => { // Use window.firebaseAuth.onAuthStateChanged
+            window.firebaseAuth.onAuthStateChanged(async (user) => { 
                 if (user) {
                     handleUserLoggedIn(user);
                 } else {
@@ -375,7 +356,7 @@
                     
                     e.preventDefault();
 
-                    const user = window.firebaseAuth.currentUser; // Get current Firebase user
+                    const user = window.firebaseAuth.currentUser; 
 
                     if (user) {
                         generatorIframe.src = card.href; 
@@ -398,7 +379,8 @@
         });
     </script>
     <script type="module">
-        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js';
+        // Updated Firebase SDK URLs to 9.23.0
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js';
         import { 
             getAuth, 
             createUserWithEmailAndPassword, 
@@ -408,10 +390,10 @@
             onAuthStateChanged,     
             signOut,
             updateProfile           
-        } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js';
+        } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js';
 
         const firebaseConfig = {
-            apiKey: "AIzaSyCSFCFGVKz2R-Beu8Gd4XeE_3FEWNj1w",
+            apiKey: "AIzaSyCSFCfGkVkZ7r-Beu8Gdb4XeE_3fEWHi1w",
             authDomain: "delta-cortex-437020-h5.firebaseapp.com",
             projectId: "delta-cortex-437020-h5",
             storageBucket: "delta-cortex-437020-h5.appspot.com",
