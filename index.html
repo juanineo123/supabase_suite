@@ -149,7 +149,7 @@
             const emailConfirmationModal = document.getElementById('email-confirmation-modal');
             const acceptConfirmationBtn = document.getElementById('accept-confirmation-btn');
             
-            const welcomeMessageModal = document = document.getElementById('welcome-message-modal'); // Corrected typo here
+            const welcomeMessageModal = document.getElementById('welcome-message-modal'); // Corrected from 'document = document.getElementById'
             const acceptWelcomeBtn = document.getElementById('accept-welcome-btn');
 
             // --- FUNCIONES AUXILIARES ---
@@ -233,7 +233,21 @@
                 const password = document.getElementById('login-password').value;
 
                 try {
-                    await window.signInWithEmailAndPassword(window.firebaseAuth, email, password);
+                    const userCredential = await window.signInWithEmailAndPassword(window.firebaseAuth, email, password);
+                    const user = userCredential.user; // Obtener el objeto de usuario
+
+                    // --- VERIFICACIÓN DE CORREO ELECTRÓNICO AÑADIDA AQUÍ ---
+                    if (!user.emailVerified) { //
+                        // El correo no está verificado, cierra la sesión para denegar el acceso
+                        await window.signOut(window.firebaseAuth); // Cierra sesión inmediatamente
+                        showMessage(loginError, 'Error: Tu correo electrónico no ha sido verificado. Por favor, revisa tu bandeja de entrada para el enlace de confirmación.', true);
+                        console.warn("Intento de inicio de sesión de usuario con correo no verificado:", user.email);
+                        return; // Detiene la ejecución para no mostrar el dashboard
+                    }
+                    // --- FIN DE VERIFICACIÓN ---
+
+                    showMessage(loginError, 'Inicio de sesión exitoso.', false);
+                    // onAuthStateChanged will handle the UI update (showing dashboard)
                 } catch (error) {
                     let errorMessage = 'Error al iniciar sesión: ';
                     if (error.code === 'auth/invalid-email' || error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
@@ -293,7 +307,21 @@
             });
 
             // --- FUNCIÓN CLAVE: GESTIÓN DEL LOGIN EXITOSO ---
+            // Esta función se llama cuando Firebase detecta un usuario autenticado.
+            // Es importante que la verificación de emailVerified se haga *antes* de llamar a esta función,
+            // o dentro de ella, para evitar mostrar el dashboard a usuarios no verificados.
             function handleUserLoggedIn(user) {
+                // DOBLE VERIFICACIÓN: Aunque ya se hace en loginForm, onAuthStateChanged también podría activarse
+                // por otras razones (ej. recarga de página con sesión activa), por lo que es buena práctica
+                // verificar aquí también, aunque denegar el acceso ya se hizo en loginForm.
+                if (!user.emailVerified) {
+                    console.warn("onAuthStateChanged detectó usuario no verificado:", user.email);
+                    // Fuerza el cierre de sesión si se detecta un usuario no verificado que no debería tener acceso
+                    window.signOut(window.firebaseAuth); 
+                    // No hacemos nada más aquí, ya que el logout activará el estado de no autenticado.
+                    return; 
+                }
+
                 const userName = user.displayName || user.email;
                 userGreeting.textContent = `Bienvenido/a, ${userName}.`;
 
@@ -359,6 +387,11 @@
                     const user = window.firebaseAuth.currentUser; 
 
                     if (user) {
+                        // Antes de abrir el generador, una última verificación de emailVerified
+                        if (!user.emailVerified) { //
+                            showMessage(loginError, 'Debes verificar tu correo electrónico para usar los generadores. Por favor, revisa tu bandeja de entrada.', true);
+                            return; // No abre el generador
+                        }
                         generatorIframe.src = card.href; 
                         
                         generatorModal.classList.remove('hidden');
@@ -366,6 +399,7 @@
                         lucide.createIcons();
 
                     } else {
+                        // Si no hay usuario, recargamos o redirigimos al login
                         window.location.reload(); 
                     }
                 }
