@@ -14,8 +14,6 @@
     <link rel="stylesheet" href="style.css">
 
     <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
     <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
 </head>
 <body>
@@ -97,7 +95,7 @@
         <div class="bg-white rounded-2xl shadow-xl p-8 sm:p-12 text-center max-w-md mx-auto transform transition-all scale-95 opacity-0 animate-fade-in-scale">
             <i data-lucide="mail-check" class="mx-auto text-green-600 mb-4" style="width: 4rem; height: 4rem; stroke-width: 1.5;"></i>
             <h2 class="text-2xl font-bold text-gray-800 mt-6 mb-3">¡Casi listo! Revisa tu correo</h2>
-            <p class="text-gray-600 mb-8">Te hemos enviado un enlace de confirmación. Haz clic en él para activar tu cuenta y poder iniciar sesión. El remitente es SUPABASE.</p>
+            <p class="text-gray-600 mb-8">Te hemos enviado un enlace de confirmación. Haz clic en él para activar tu cuenta y poder iniciar sesión. El remitente es **Firebase** (antes era SUPABASE).</p>
             <button id="accept-confirmation-btn" class="w-full h-[52px] flex items-center justify-center font-semibold text-lg text-white rounded-lg primary-button">Aceptar</button>
         </div>
     </div>
@@ -128,10 +126,11 @@
         document.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons();
 
-            const SUPABASE_URL = 'https://gswvzdgogalahbcfxdbi.supabase.co'; 
-            const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdzd3Z6ZGdvZ2FsYWhiY2Z4ZGJpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA3MjAwNzUsImV4cCI6MjA2NjI5NjA3NX0.3ieGReiMIQwfozDVtJyjIlpPJre1coeJtddqD3HJN-4'; 
-            const { createClient } = supabase;
-            const _supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+            // REMOVED: Supabase initialization
+            // const SUPABASE_URL = 'https://gswvzdgogalahbcfxdbi.supabase.co'; 
+            // const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdzd3Z6ZGdvZ2FsYWhiY2Z4ZGJpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA3MjAwNzUsImV4cCI6MjA2NjI5NjA3NX0.3ieGReiMIQwfozDVtJyjIlpPJre1coeJtddqD3HJN-4'; 
+            // const { createClient } = supabase;
+            // const _supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
             
             // Selectores de Elementos
             const authView = document.getElementById('auth-view');
@@ -188,100 +187,149 @@
                 element.classList.remove('hidden');
             }
             
-            // --- LÓGICA DE AUTENTICACIÓN ---
+            // --- LÓGICA DE AUTENTICACIÓN (AHORA CON FIREBASE) ---
 
-            // PASO 3: LÓGICA DE REGISTRO ACTUALIZADA CON HCAPTCHA
+            // Registro de usuario con Firebase Authentication
             registerForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
 
-                // 1. Obtenemos el token que genera hCaptcha cuando el usuario interactúa con él.
+                // hCaptcha validation (Firebase Authentication doesn't handle hCaptcha directly on its own,
+                // you would typically verify this on a backend server or implement custom logic
+                // if you need to strictly enforce it for Firebase sign-ups. For now, we keep the check
+                // but note that Firebase Auth does not validate this token server-side automatically).
                 const hcaptchaResponse = document.querySelector('[name="h-captcha-response"]');
                 const captchaToken = hcaptchaResponse ? hcaptchaResponse.value : null;
 
-                // 2. Verificamos si el usuario completó el captcha. Si no, mostramos un error.
                 if (!captchaToken) {
                     showMessage(registerMessage, 'Por favor, completa el desafío "Soy humano".', true);
-                    return; // Detenemos el registro si no hay token.
+                    return;
                 }
 
                 toggleSpinner(registerForm, true);
                 registerMessage.classList.add('hidden');
 
-                // 3. Enviamos el token a Supabase junto con el resto de los datos del usuario.
-                const { data, error } = await _supabase.auth.signUp({
-                    email: document.getElementById('register-email').value,
-                    password: document.getElementById('register-password').value,
-                    options: {
-                        data: {
-                            full_name: document.getElementById('register-name').value
-                        },
-                        captchaToken: captchaToken // ¡Aquí va la magia!
-                    }
-                });
+                const email = document.getElementById('register-email').value;
+                const password = document.getElementById('register-password').value;
+                const fullName = document.getElementById('register-name').value; // For user profile update
 
-                toggleSpinner(registerForm, false);
-                
-                if (error) {
-                    // Mejoramos el manejo de errores para ser más específicos.
-                    if (error.message.includes('captcha')) {
-                         showMessage(registerMessage, 'La verificación del captcha ha fallado. Por favor, inténtalo de nuevo.', true);
-                    } else if (error.message.includes('rate limit')) {
-                         showMessage(registerMessage, 'Se han realizado demasiados intentos. Por favor, espera un momento y vuelve a intentarlo.', true);
-                    } else if (error.message.includes('User already registered')) {
-                        showMessage(registerMessage, 'Este correo ya está registrado.', true);
+                try {
+                    // Use window.createUserWithEmailAndPassword from the global scope
+                    const userCredential = await window.createUserWithEmailAndPassword(window.firebaseAuth, email, password);
+                    const user = userCredential.user;
+
+                    // Update user profile (e.g., display name)
+                    await user.updateProfile({
+                        displayName: fullName
+                    });
+
+                    // Send email verification (using the global sendEmailVerification)
+                    await window.sendEmailVerification(user);
+
+                    showMessage(registerMessage, 'Registro exitoso. Se ha enviado un correo de verificación a tu dirección. Por favor, revisa tu bandeja de entrada (incluyendo spam).', false);
+                    emailConfirmationModal.classList.remove('hidden'); // Show confirmation modal
+                    lucide.createIcons(); // Re-create icons if modal added/removed
+
+                } catch (error) {
+                    let errorMessage = 'Error al registrar el usuario: ';
+                    if (error.code === 'auth/email-already-in-use') {
+                        errorMessage += 'Este correo electrónico ya está registrado.';
+                    } else if (error.code === 'auth/invalid-email') {
+                        errorMessage += 'El formato del correo electrónico es inválido.';
+                    } else if (error.code === 'auth/weak-password') {
+                        errorMessage += 'La contraseña es demasiado débil (mínimo 6 caracteres).';
                     } else {
-                         showMessage(registerMessage, `Error: ${error.message}`, true);
+                        errorMessage += error.message;
                     }
-                } else if (data.user) {
-                    // Mostramos el modal de confirmación, que ahora es más relevante que nunca.
-                    emailConfirmationModal.classList.remove('hidden');
-                    lucide.createIcons();
-                }
-
-                // Reseteamos el captcha para que puedan volver a intentarlo si hay un error.
-                if (window.hcaptcha) {
-                    hcaptcha.reset();
+                    showMessage(registerMessage, errorMessage, true);
+                    console.error("Firebase Registration Error:", error);
+                } finally {
+                    toggleSpinner(registerForm, false);
+                    if (window.hcaptcha) {
+                        hcaptcha.reset(); // Reset hCaptcha regardless of success/failure
+                    }
                 }
             });
 
+            // Inicio de sesión con Firebase Authentication
             loginForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 toggleSpinner(loginForm, true);
                 loginError.classList.add('hidden');
-                const { error } = await _supabase.auth.signInWithPassword({
-                    email: document.getElementById('login-email').value,
-                    password: document.getElementById('login-password').value,
-                });
-                toggleSpinner(loginForm, false);
-                if (error) {
-                    showMessage(loginError, error.message.includes('Email not confirmed') ? 'Aún no has confirmado tu correo.' : 'Correo o contraseña incorrectos.', true);
+
+                const email = document.getElementById('login-email').value;
+                const password = document.getElementById('login-password').value;
+
+                try {
+                    // Use window.signInWithEmailAndPassword from the global scope
+                    await window.signInWithEmailAndPassword(window.firebaseAuth, email, password);
+                    // onAuthStateChanged will handle the UI update
+                } catch (error) {
+                    let errorMessage = 'Error al iniciar sesión: ';
+                    if (error.code === 'auth/invalid-email' || error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
+                        errorMessage += 'Correo o contraseña incorrectos.';
+                    } else if (error.code === 'auth/user-disabled') {
+                        errorMessage += 'Tu cuenta ha sido deshabilitada.';
+                    } else if (error.code === 'auth/too-many-requests') {
+                        errorMessage += 'Demasiados intentos fallidos. Inténtalo de nuevo más tarde.';
+                    } else {
+                        errorMessage += error.message;
+                    }
+                    showMessage(loginError, errorMessage, true);
+                    console.error("Firebase Login Error:", error);
+                } finally {
+                    toggleSpinner(loginForm, false);
                 }
             });
             
+            // Restablecimiento de contraseña con Firebase Authentication
             recoveryForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 toggleSpinner(recoveryForm, true);
                 recoveryMessage.classList.add('hidden');
-                const { error } = await _supabase.auth.resetPasswordForEmail(
-                    document.getElementById('recovery-email').value, 
-                    { redirectTo: window.location.origin }
-                );
-                toggleSpinner(recoveryForm, false);
-                if (error) {
-                    showMessage(recoveryMessage, `Error: ${error.message}`, true);
-                } else {
-                    showMessage(recoveryMessage, 'Si tu correo existe, recibirás un enlace para restablecer tu contraseña.');
+
+                const email = document.getElementById('recovery-email').value;
+
+                try {
+                    // Use sendPasswordResetEmail (Firebase Auth's equivalent)
+                    await firebase.auth().sendPasswordResetEmail(email, {
+                        url: window.location.origin, // This is crucial for Firebase to redirect back to your site
+                        handleCodeInApp: true // If you handle password reset in-app, otherwise set to false
+                    });
+                    showMessage(recoveryMessage, 'Si tu correo existe, recibirás un enlace para restablecer tu contraseña. Revisa tu bandeja de entrada (incluyendo spam).', false);
+                } catch (error) {
+                    let errorMessage = 'Error al restablecer contraseña: ';
+                    if (error.code === 'auth/invalid-email') {
+                        errorMessage += 'El formato del correo electrónico es inválido.';
+                    } else if (error.code === 'auth/user-not-found') {
+                        errorMessage += 'No se encontró un usuario con este correo electrónico.'; // Firebase is intentionally vague for security
+                    } else {
+                        errorMessage += error.message;
+                    }
+                    showMessage(recoveryMessage, errorMessage, true);
+                    console.error("Firebase Password Recovery Error:", error);
+                } finally {
+                    toggleSpinner(recoveryForm, false);
                 }
             });
 
+            // Cierre de sesión con Firebase Authentication
             logoutButton.addEventListener('click', async () => {
                 sessionStorage.removeItem('welcomeShown');
-                await _supabase.auth.signOut();
+                try {
+                    // Use window.signOut from the global scope
+                    await window.signOut(window.firebaseAuth);
+                    // onAuthStateChanged will handle the UI update
+                } catch (error) {
+                    console.error("Firebase Sign Out Error:", error);
+                    // Potentially show an error message if sign-out fails
+                }
             });
 
             // --- FUNCIÓN CLAVE: GESTIÓN DEL LOGIN EXITOSO ---
-            function handleSuccessfulLogin(user) {
-                const userName = user.user_metadata?.full_name || user.email;
+            // Renombrado para ser más general, maneja el usuario logueado por Firebase
+            function handleUserLoggedIn(user) {
+                // Firebase user object contains displayName (from updateProfile) or email
+                const userName = user.displayName || user.email;
                 userGreeting.textContent = `Bienvenido/a, ${userName}.`;
 
                 if (!sessionStorage.getItem('welcomeShown')) {
@@ -293,11 +341,14 @@
                 }
             }
 
-            // --- GESTOR DE ESTADO DE AUTENTICACIÓN ---
-            _supabase.auth.onAuthStateChange(async (_event, session) => { 
-                if (session?.user) {
-                    handleSuccessfulLogin(session.user);
+            // --- GESTOR DE ESTADO DE AUTENTICACIÓN (AHORA CON FIREBASE) ---
+            // Use window.firebaseAuth.onAuthStateChanged
+            window.firebaseAuth.onAuthStateChanged(async (user) => { 
+                if (user) {
+                    // Usuario ha iniciado sesión
+                    handleUserLoggedIn(user);
                 } else {
+                    // Usuario ha cerrado sesión o no está autenticado
                     authView.classList.remove('hidden');
                     suiteDashboard.classList.add('hidden');
                     loginForm.reset();
@@ -329,10 +380,10 @@
                 sessionStorage.setItem('welcomeShown', 'true');
             });
 
+            // Lógica para abrir generadores con token de Firebase (requiere un poco más de trabajo)
             generatorGrid.addEventListener('click', async (e) => {
                 const card = e.target.closest('.generator-card');
                 if (card) {
-                    
                     if (card.classList.contains('is-disabled')) {
                         e.preventDefault();
                         return;
@@ -344,18 +395,32 @@
                     
                     e.preventDefault();
 
-                    const { data: { session } } = await _supabase.auth.getSession();
+                    const user = window.firebaseAuth.currentUser; // Get current Firebase user
 
-                    if (session) {
-                        const urlConLlave = `${card.href}#access_token=${session.access_token}&refresh_token=${session.refresh_token}`;
+                    if (user) {
+                        // Firebase does not use access_token/refresh_token in the same way Supabase did for URLs.
+                        // For a client-side app, you might get an ID token to pass to a backend,
+                        // or rely on Firebase's own authentication state on the embedded page if it also uses Firebase.
+                        // For now, we'll just pass the bare URL if authenticated. If the child apps
+                        // also need authentication, they will need to be configured for Firebase Auth.
                         
-                        generatorIframe.src = urlConLlave;
+                        // If the target generator apps are also Firebase-aware, they can simply check
+                        // Firebase's auth state directly. If they are *not* Firebase-aware and relied
+                        // *only* on Supabase tokens, this part will need a custom solution (e.g., a proxy
+                        // server to exchange Firebase ID token for a custom token the child app understands).
+                        
+                        // For demonstration, just pass the URL without tokens for now.
+                        // You will need to implement proper token exchange/verification if child apps require it.
+                        generatorIframe.src = card.href; 
+                        
                         generatorModal.classList.remove('hidden');
                         document.body.style.overflow = 'hidden';
                         lucide.createIcons();
 
                     } else {
-                        window.location.reload();
+                        // If no user is logged in, perhaps show a message or redirect to login.
+                        // The onAuthStateChanged should ideally handle this already.
+                        window.location.reload(); // Force reload to ensure auth state is reflected
                     }
                 }
             });
@@ -366,6 +431,50 @@
                 document.body.style.overflow = 'auto';
             });
         });
+    </script>
+    <script type="module">
+        // Importar funciones necesarias de los SDKs de Firebase
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js';
+        import { 
+            getAuth, 
+            createUserWithEmailAndPassword, 
+            signInWithEmailAndPassword, 
+            sendEmailVerification,
+            sendPasswordResetEmail, // Added for recovery
+            onAuthStateChanged,     // Added for state management
+            signOut,
+            updateProfile           // Added for updating user name
+        } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js'; // Ensure all used functions are imported
+
+        // Tu configuración específica de Firebase (Copiado directamente de tu captura de pantalla)
+        const firebaseConfig = {
+            apiKey: "AIzaSyCSFCFGVKz2R-Beu8Gd4XeE_3FEWNj1w",
+            authDomain: "delta-cortex-437020-h5.firebaseapp.com",
+            projectId: "delta-cortex-437020-h5",
+            storageBucket: "delta-cortex-437020-h5.appspot.com",
+            messagingSenderId: "423600255022",
+            appId: "1:423600255022:web:210337d8730803c500afbf",
+            measurementId: "G-2KJ74JH382" // Si no activaste Analytics, no pasará nada con esto aquí
+        };
+
+        // Inicializar Firebase
+        const app = initializeApp(firebaseConfig);
+
+        // Obtener la instancia de Autenticación
+        const auth = getAuth(app);
+
+        // HACER LA INSTANCIA DE AUTENTICACIÓN GLOBALMENTE ACCESIBLE
+        // Esto es crucial para que tu script principal (donde manejas el registro/login)
+        // pueda usar 'auth' y las funciones de Firebase Auth.
+        window.firebaseAuth = auth;
+        window.createUserWithEmailAndPassword = createUserWithEmailAndPassword;
+        window.signInWithEmailAndPassword = signInWithEmailAndPassword;
+        window.sendEmailVerification = sendEmailVerification;
+        window.sendPasswordResetEmail = sendPasswordResetEmail; // Make globally available
+        window.onAuthStateChanged = onAuthStateChanged;         // Make globally available
+        window.signOut = signOut;
+        window.updateProfile = updateProfile;                   // Make globally available
+
     </script>
 
 </body>
