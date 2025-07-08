@@ -14,8 +14,7 @@
     <link rel="stylesheet" href="style.css">
 
     <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
-</head>
+    </head>
 <body>
 
     <div id="page-container">
@@ -48,8 +47,6 @@
                                 <div><input id="register-name" type="text" autocomplete="name" required class="w-full px-4 py-3 rounded-lg custom-input" placeholder="Nombre completo"></div>
                                 <div><input id="register-email" type="email" autocomplete="email" required class="w-full px-4 py-3 rounded-lg custom-input" placeholder="Correo electrónico"></div>
                                 <div><input id="register-password" type="password" autocomplete="new-password" required class="w-full px-4 py-3 rounded-lg custom-input" placeholder="Crea una contraseña (mín. 6 caracteres)"></div>
-                                
-                                <div class="h-captcha" data-sitekey="7e60c678-9432-41ce-8ac0-a0169f5ee280"></div>
                                 
                                 <button type="submit" class="w-full h-[52px] flex items-center justify-center font-semibold text-lg text-white rounded-lg primary-button focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"><span class="button-text">Registrarme</span><div class="spinner hidden"></div></button>
                             </form>
@@ -125,12 +122,6 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons();
-
-            // REMOVED: Supabase initialization
-            // const SUPABASE_URL = 'https://gswvzdgogalahbcfxdbi.supabase.co'; 
-            // const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdzd3Z6ZGdvZ2FsYWhiY2Z4ZGJpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA3MjAwNzUsImV4cCI6MjA2NjI5NjA3NX0.3ieGReiMIQwfozDVtJyjIlpPJre1coeJtddqD3HJN-4'; 
-            // const { createClient } = supabase;
-            // const _supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
             
             // Selectores de Elementos
             const authView = document.getElementById('auth-view');
@@ -193,17 +184,13 @@
             registerForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
 
-                // hCaptcha validation (Firebase Authentication doesn't handle hCaptcha directly on its own,
-                // you would typically verify this on a backend server or implement custom logic
-                // if you need to strictly enforce it for Firebase sign-ups. For now, we keep the check
-                // but note that Firebase Auth does not validate this token server-side automatically).
-                const hcaptchaResponse = document.querySelector('[name="h-captcha-response"]');
-                const captchaToken = hcaptchaResponse ? hcaptchaResponse.value : null;
-
-                if (!captchaToken) {
-                    showMessage(registerMessage, 'Por favor, completa el desafío "Soy humano".', true);
-                    return;
-                }
+                // REMOVED: hCaptcha validation
+                // const hcaptchaResponse = document.querySelector('[name="h-captcha-response"]');
+                // const captchaToken = hcaptchaResponse ? hcaptchaResponse.value : null;
+                // if (!captchaToken) {
+                //     showMessage(registerMessage, 'Por favor, completa el desafío "Soy humano".', true);
+                //     return; 
+                // }
 
                 toggleSpinner(registerForm, true);
                 registerMessage.classList.add('hidden');
@@ -218,7 +205,7 @@
                     const user = userCredential.user;
 
                     // Update user profile (e.g., display name)
-                    await user.updateProfile({
+                    await window.updateProfile(user, { // Use window.updateProfile
                         displayName: fullName
                     });
 
@@ -244,9 +231,10 @@
                     console.error("Firebase Registration Error:", error);
                 } finally {
                     toggleSpinner(registerForm, false);
-                    if (window.hcaptcha) {
-                        hcaptcha.reset(); // Reset hCaptcha regardless of success/failure
-                    }
+                    // REMOVED: hCaptcha reset
+                    // if (window.hcaptcha) {
+                    //     hcaptcha.reset(); 
+                    // }
                 }
             });
 
@@ -290,10 +278,10 @@
                 const email = document.getElementById('recovery-email').value;
 
                 try {
-                    // Use sendPasswordResetEmail (Firebase Auth's equivalent)
-                    await firebase.auth().sendPasswordResetEmail(email, {
-                        url: window.location.origin, // This is crucial for Firebase to redirect back to your site
-                        handleCodeInApp: true // If you handle password reset in-app, otherwise set to false
+                    // Use window.sendPasswordResetEmail (Firebase Auth's equivalent)
+                    await window.sendPasswordResetEmail(window.firebaseAuth, email, { // Use window.sendPasswordResetEmail and pass auth instance
+                        url: window.location.origin, 
+                        handleCodeInApp: true 
                     });
                     showMessage(recoveryMessage, 'Si tu correo existe, recibirás un enlace para restablecer tu contraseña. Revisa tu bandeja de entrada (incluyendo spam).', false);
                 } catch (error) {
@@ -301,7 +289,7 @@
                     if (error.code === 'auth/invalid-email') {
                         errorMessage += 'El formato del correo electrónico es inválido.';
                     } else if (error.code === 'auth/user-not-found') {
-                        errorMessage += 'No se encontró un usuario con este correo electrónico.'; // Firebase is intentionally vague for security
+                        errorMessage += 'No se encontró un usuario con este correo electrónico.'; 
                     } else {
                         errorMessage += error.message;
                     }
@@ -318,17 +306,13 @@
                 try {
                     // Use window.signOut from the global scope
                     await window.signOut(window.firebaseAuth);
-                    // onAuthStateChanged will handle the UI update
                 } catch (error) {
                     console.error("Firebase Sign Out Error:", error);
-                    // Potentially show an error message if sign-out fails
                 }
             });
 
             // --- FUNCIÓN CLAVE: GESTIÓN DEL LOGIN EXITOSO ---
-            // Renombrado para ser más general, maneja el usuario logueado por Firebase
             function handleUserLoggedIn(user) {
-                // Firebase user object contains displayName (from updateProfile) or email
                 const userName = user.displayName || user.email;
                 userGreeting.textContent = `Bienvenido/a, ${userName}.`;
 
@@ -342,13 +326,10 @@
             }
 
             // --- GESTOR DE ESTADO DE AUTENTICACIÓN (AHORA CON FIREBASE) ---
-            // Use window.firebaseAuth.onAuthStateChanged
-            window.firebaseAuth.onAuthStateChanged(async (user) => { 
+            window.firebaseAuth.onAuthStateChanged(async (user) => { // Use window.firebaseAuth.onAuthStateChanged
                 if (user) {
-                    // Usuario ha iniciado sesión
                     handleUserLoggedIn(user);
                 } else {
-                    // Usuario ha cerrado sesión o no está autenticado
                     authView.classList.remove('hidden');
                     suiteDashboard.classList.add('hidden');
                     loginForm.reset();
@@ -380,7 +361,6 @@
                 sessionStorage.setItem('welcomeShown', 'true');
             });
 
-            // Lógica para abrir generadores con token de Firebase (requiere un poco más de trabajo)
             generatorGrid.addEventListener('click', async (e) => {
                 const card = e.target.closest('.generator-card');
                 if (card) {
@@ -398,19 +378,6 @@
                     const user = window.firebaseAuth.currentUser; // Get current Firebase user
 
                     if (user) {
-                        // Firebase does not use access_token/refresh_token in the same way Supabase did for URLs.
-                        // For a client-side app, you might get an ID token to pass to a backend,
-                        // or rely on Firebase's own authentication state on the embedded page if it also uses Firebase.
-                        // For now, we'll just pass the bare URL if authenticated. If the child apps
-                        // also need authentication, they will need to be configured for Firebase Auth.
-                        
-                        // If the target generator apps are also Firebase-aware, they can simply check
-                        // Firebase's auth state directly. If they are *not* Firebase-aware and relied
-                        // *only* on Supabase tokens, this part will need a custom solution (e.g., a proxy
-                        // server to exchange Firebase ID token for a custom token the child app understands).
-                        
-                        // For demonstration, just pass the URL without tokens for now.
-                        // You will need to implement proper token exchange/verification if child apps require it.
                         generatorIframe.src = card.href; 
                         
                         generatorModal.classList.remove('hidden');
@@ -418,9 +385,7 @@
                         lucide.createIcons();
 
                     } else {
-                        // If no user is logged in, perhaps show a message or redirect to login.
-                        // The onAuthStateChanged should ideally handle this already.
-                        window.location.reload(); // Force reload to ensure auth state is reflected
+                        window.location.reload(); 
                     }
                 }
             });
@@ -433,20 +398,18 @@
         });
     </script>
     <script type="module">
-        // Importar funciones necesarias de los SDKs de Firebase
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js';
         import { 
             getAuth, 
             createUserWithEmailAndPassword, 
             signInWithEmailAndPassword, 
             sendEmailVerification,
-            sendPasswordResetEmail, // Added for recovery
-            onAuthStateChanged,     // Added for state management
+            sendPasswordResetEmail, 
+            onAuthStateChanged,     
             signOut,
-            updateProfile           // Added for updating user name
-        } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js'; // Ensure all used functions are imported
+            updateProfile           
+        } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js';
 
-        // Tu configuración específica de Firebase (Copiado directamente de tu captura de pantalla)
         const firebaseConfig = {
             apiKey: "AIzaSyCSFCFGVKz2R-Beu8Gd4XeE_3FEWNj1w",
             authDomain: "delta-cortex-437020-h5.firebaseapp.com",
@@ -454,26 +417,20 @@
             storageBucket: "delta-cortex-437020-h5.appspot.com",
             messagingSenderId: "423600255022",
             appId: "1:423600255022:web:210337d8730803c500afbf",
-            measurementId: "G-2KJ74JH382" // Si no activaste Analytics, no pasará nada con esto aquí
+            measurementId: "G-2KJ74JH382"
         };
 
-        // Inicializar Firebase
         const app = initializeApp(firebaseConfig);
-
-        // Obtener la instancia de Autenticación
         const auth = getAuth(app);
 
-        // HACER LA INSTANCIA DE AUTENTICACIÓN GLOBALMENTE ACCESIBLE
-        // Esto es crucial para que tu script principal (donde manejas el registro/login)
-        // pueda usar 'auth' y las funciones de Firebase Auth.
         window.firebaseAuth = auth;
         window.createUserWithEmailAndPassword = createUserWithEmailAndPassword;
         window.signInWithEmailAndPassword = signInWithEmailAndPassword;
         window.sendEmailVerification = sendEmailVerification;
-        window.sendPasswordResetEmail = sendPasswordResetEmail; // Make globally available
-        window.onAuthStateChanged = onAuthStateChanged;         // Make globally available
+        window.sendPasswordResetEmail = sendPasswordResetEmail; 
+        window.onAuthStateChanged = onAuthStateChanged;         
         window.signOut = signOut;
-        window.updateProfile = updateProfile;                   // Make globally available
+        window.updateProfile = updateProfile;                   
 
     </script>
 
