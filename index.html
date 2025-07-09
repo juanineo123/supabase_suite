@@ -1,132 +1,230 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Suite de Generadores Educativos</title>
-    
+
     <script src="https://cdn.tailwindcss.com"></script>
-    
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="/style.css">
 
     <script src="https://unpkg.com/lucide@latest"></script>
-    </head>
+</head>
+
 <body>
 
     <div id="page-container">
         <div id="auth-view">
-            <div class="min-h-screen flex flex-col lg:flex-row">
-                <div class="relative lg:w-1/2 h-64 lg:h-full bg-cover bg-center" style="background-image: url('images/login-bg.png');">
+            <div class="min-h-screen grid lg:grid-cols-2">
+
+                <div class="hidden lg:block bg-cover bg-center" style="background-image: url('images/login-bg.png');">
                 </div>
-                
-                <div class="lg:w-1/2 lg:h-full flex items-center justify-center p-4 sm:p-8 lg:p-12 bg-white">
-            <div class="w-full max-w-md">
+
+                <div class="flex items-center justify-center p-4 sm:p-8 lg:p-12 bg-white">
+                    <div class="w-full max-w-md">
+
                         <div id="login-screen">
-    <div class="text-center mb-8">
-        <h1 class="text-3xl font-bold text-gray-800">BIENVENIDO A LA SUITE DOCENTE</h1>
-        <p class="text-gray-500 mt-2">Inicia sesión para acceder a los generadores, solo necesitas registrarte, <strong>¡ES GRATIS!</strong></p>
-    </div>
+                            <div class="text-center mb-8">
+                                <h1 class="text-3xl font-bold text-gray-800">BIENVENIDO A LA SUITE DOCENTE</h1>
+                                <p class="text-gray-500 mt-2">Inicia sesión para acceder a los generadores, solo
+                                    necesitas registrarte, <strong>¡ES GRATIS!</strong></p>
+                            </div>
 
-    <form id="login-form" class="space-y-4">
-        <div><input id="login-email" type="email" autocomplete="email" required class="w-full px-4 py-3 rounded-lg custom-input" placeholder="Correo electrónico"></div>
-        <div><input id="login-password" type="password" autocomplete="current-password" required class="w-full px-4 py-3 rounded-lg custom-input" placeholder="Contraseña"></div>
-        <button type="submit" class="w-full h-[52px] flex items-center justify-center font-semibold text-lg text-white rounded-lg primary-button focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"><span class="button-text">Iniciar Sesión</span><div class="spinner hidden"></div></button>
-    </form>
-    <p id="login-error" class="text-red-500 text-center hidden mt-4 text-sm"></p>
-    
-    <div class="my-6 flex items-center">
-        <div class="flex-grow border-t border-gray-300"></div>
-        <span class="flex-shrink mx-4 text-gray-400 text-sm">O</span>
-        <div class="flex-grow border-t border-gray-300"></div>
-    </div>
+                            <div class="space-y-4">
+                                <button id="google-login-btn" type="button"
+                                    class="w-full h-[52px] flex items-center justify-center font-semibold text-lg text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400">
+                                    <svg class="w-5 h-5 mr-3" viewBox="0 0 48 48">
+                                        <path fill="#FFC107"
+                                            d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24s8.955,20,20,20s20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z">
+                                        </path>
+                                        <path fill="#FF3D00"
+                                            d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z">
+                                        </path>
+                                        <path fill="#4CAF50"
+                                            d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.222,0-9.522-3.441-11.022-8.12l-6.522,5.025C9.505,39.556,16.227,44,24,44z">
+                                        </path>
+                                        <path fill="#1976D2"
+                                            d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571l6.19,5.238C42.022,35.132,44,30.028,44,24C44,22.659,43.862,21.35,43.611,20.083z">
+                                        </path>
+                                    </svg>
+                                    Inicia Sesión con Google
+                                </button>
+                                <button id="facebook-login-btn" type="button"
+                                    class="w-full h-[52px] flex items-center justify-center font-semibold text-lg text-white bg-[#1877F2] border border-transparent rounded-lg hover:bg-[#166fe5] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                    <svg class="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 24 24">
+                                        <path
+                                            d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-1.5c-.83 0-1 .42-1 1v2h2.5l-.5 3H14v6.8c4.56-.93 8-4.96 8-9.8z">
+                                        </path>
+                                    </svg>
+                                    Inicia Sesión con Facebook
+                                </button>
+                            </div>
 
-    <div class="space-y-4">
-        <a href="#" id="show-register" class="w-full h-[52px] flex items-center justify-center font-semibold text-lg rounded-lg secondary-button">Regístrate con un correo</a>
-        
-        <button id="google-login-btn" type="button" class="w-full h-[52px] flex items-center justify-center font-semibold text-lg text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400">
-            <svg class="w-5 h-5 mr-3" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24s8.955,20,20,20s20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"></path><path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"></path><path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.222,0-9.522-3.441-11.022-8.12l-6.522,5.025C9.505,39.556,16.227,44,24,44z"></path><path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571l6.19,5.238C42.022,35.132,44,30.028,44,24C44,22.659,43.862,21.35,43.611,20.083z"></path></svg>
-            Inicia Sesión con Google
-        </button>
-    </div>
-    
-    <div class="text-center mt-6">
-        <a href="#" id="show-recovery" class="font-medium primary-link text-sm">¿Olvidaste tu contraseña?</a>
-    </div>
-</div>
-                        <div id="register-screen" class="hidden">
-                            <div class="text-center mb-8"><h1 class="text-3xl font-bold text-gray-800">Crear una Cuenta Nueva</h1><p class="text-gray-500 mt-2">Únete a la suite para transformar tu enseñanza.</p></div>
-                            <form id="register-form" class="space-y-4">
-                                <div><input id="register-name" type="text" autocomplete="name" required class="w-full px-4 py-3 rounded-lg custom-input" placeholder="Nombre completo"></div>
-                                <div><input id="register-email" type="email" autocomplete="email" required class="w-full px-4 py-3 rounded-lg custom-input" placeholder="Correo electrónico"></div>
-                                <div><input id="register-password" type="password" autocomplete="new-password" required class="w-full px-4 py-3 rounded-lg custom-input" placeholder="Crea una contraseña (mín. 6 caracteres)"></div>
-                                
-                                <button type="submit" class="w-full h-[52px] flex items-center justify-center font-semibold text-lg text-white rounded-lg primary-button focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"><span class="button-text">Registrarme</span><div class="spinner hidden"></div></button>
-                            </form>
-                            <p id="register-message" class="text-center hidden mt-4 text-sm"></p>
-                            <div class="text-center text-sm text-gray-500 mt-6"><p>¿Ya tienes una cuenta? <a href="#" id="show-login-from-register" class="font-medium primary-link">Inicia sesión</a></p></div>
+
+
+
+                            <p id="login-error" class="text-red-500 text-center hidden mt-4 text-sm"></p>
                         </div>
-                        <div id="recovery-screen" class="hidden">
-                             <div class="text-center mb-8"><h1 class="text-3xl font-bold text-gray-800">Restablecer Contraseña</h1><p class="text-gray-500 mt-2">Ingresa tu correo y te enviaremos las instrucciones.</p></div>
-                            <form id="recovery-form" class="space-y-4">
-                                <div><input id="recovery-email" type="email" autocomplete="email" required class="w-full px-4 py-3 rounded-lg custom-input" placeholder="Correo electrónico"></div>
-                                <button type="submit" class="w-full h-[52px] flex items-center justify-center font-semibold text-lg text-white rounded-lg primary-button focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"><span class="button-text">Enviar Instrucciones</span><div class="spinner hidden"></div></button>
-                            </form>
-                            <p id="recovery-message" class="text-center hidden mt-4 text-sm"></p>
-                            <div class="text-center text-sm text-gray-500 mt-6"><p><a href="#" id="show-login-from-recovery" class="font-medium primary-link">Volver a inicio de sesión</a></p></div>
-                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
-
         <main id="suite-dashboard" class="hidden min-h-screen p-4 sm:p-8">
             <header class="flex justify-between items-center mb-12 max-w-7xl mx-auto">
-                <div class="text-left"><h1 class="text-2xl md:text-3xl font-bold text-gray-900">Suite de Generadores</h1><p id="user-greeting" class="text-gray-600">Bienvenido/a.</p></div>
-                <button id="logout-button" class="bg-red-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-red-600 transition-colors">Cerrar Sesión</button>
+                <div class="text-left">
+                    <h1 class="text-2xl md:text-3xl font-bold text-gray-900">Suite de Generadores</h1>
+                    <p id="user-greeting" class="text-gray-600">Bienvenido/a.</p>
+                </div>
+                <button id="logout-button"
+                    class="bg-red-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-red-600 transition-colors">Cerrar
+                    Sesión</button>
             </header>
-            <div id="generator-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 max-w-7xl mx-auto">
-                 <a href="https://glistening-starlight-1588bf.netlify.app/" class="generator-card bg-sky-50 border-2 border-sky-200"><div class="p-6 h-full flex flex-col items-center text-center"> <i data-lucide="book-open-check" class="lucide text-sky-600 mb-4"></i> <h3 class="text-xl font-bold mb-2 text-gray-800">Generador de Sesiones V-2.0</h3> <p class="text-gray-500 text-sm flex-grow">Crea tu sesión de aprendizaje completa en un solo clic.</p> </div></a>
-                 <a href="https://unidades2.netlify.app/" class="generator-card bg-indigo-50 border-2 border-indigo-200"><div class="p-6 h-full flex flex-col items-center text-center"> <i data-lucide="layers-3" class="lucide text-indigo-500 mb-4"></i> <h3 class="text-xl font-bold mb-2 text-gray-800">Generador de Unidades V-2.0</h3> <p class="text-gray-500 text-sm flex-grow">Diseña unidades de aprendizaje listas para implementar.</p> </div></a>
-                 <a href="https://jazzy-moxie-e34a66.netlify.app/" class="generator-card bg-emerald-50 border-2 border-emerald-200"><div class="p-6 h-full flex flex-col items-center text-center"> <i data-lucide="file-spreadsheet" class="lucide text-emerald-600 mb-4"></i> <h3 class="text-xl font-bold mb-2 text-gray-800">Fichas y Exámenes</h3> <p class="text-gray-500 text-sm flex-grow">Genera material de trabajo y evaluaciones al instante.</p> </div></a>
-                 <a href="https://fancy-profiterole-01445b.netlify.app/" class="generator-card bg-amber-50 border-2 border-amber-200"><div class="p-6 h-full flex flex-col items-center text-center"> <i data-lucide="file-signature" class="lucide text-amber-600 mb-4"></i> <h3 class="text-xl font-bold mb-2 text-gray-800">Generador de Solicitudes</h3> <p class="text-gray-500 text-sm flex-grow">Redacta documentos administrativos de forma automática.</p> </div></a>
-                 <a href="https://elegant-duckanoo-d702fe.netlify.app/" class="generator-card bg-rose-50 border-2 border-rose-200"><div class="p-6 h-full flex flex-col items-center text-center"> <i data-lucide="shield-check" class="lucide text-rose-600 mb-4"></i> <h3 class="text-xl font-bold mb-2 text-gray-800">Solucionador de Conflictos</h3> <p class="text-gray-500 text-sm flex-grow">Guía para actuar en situaciones de conflicto según normativas.</p> </div></a>
-                 <a href="https://jocular-concha-e30cbd.netlify.app/" class="generator-card bg-violet-50 border-2 border-violet-200"><div class="p-6 h-full flex flex-col items-center text-center"> <i data-lucide="puzzle" class="lucide text-violet-600 mb-4"></i> <h3 class="text-xl font-bold mb-2 text-gray-800">Proyectos Integrados</h3> <p class="text-gray-500 text-sm flex-grow">Desarrolla proyectos de aprendizaje basados en problemas reales.</p> </div></a>
-                 <a href="https://unrivaled-unicorn-fe7373.netlify.app/" class="generator-card bg-teal-50 border-2 border-teal-200"><div class="p-6 h-full flex flex-col items-center text-center"> <i data-lucide="calendar-days" class="lucide text-teal-600 mb-4"></i> <h3 class="text-xl font-bold mb-2 text-gray-800">Programación Anual</h3> <p class="text-gray-500 text-sm flex-grow">Genera tu programación curricular anual de forma sencilla.</p> </div></a>
-                 <a href="https://stalwart-buttercream-8c9f0d.netlify.app/" class="generator-card bg-orange-50 border-2 border-orange-200"><div class="p-6 h-full flex flex-col items-center text-center"> <i data-lucide="notebook-pen" class="lucide text-orange-600 mb-4"></i> <h3 class="text-xl font-bold mb-2 text-gray-800">Registros Auxiliares</h3> <p class="text-gray-500 text-sm flex-grow">Gestiona y crea registros de notas de forma automática.</p> </div></a>
-                 <a href="https://carpetasderecuperacion.netlify.app/" class="generator-card bg-cyan-50 border-2 border-cyan-200"><div class="p-6 h-full flex flex-col items-center text-center"> <i data-lucide="folder-sync" class="lucide text-cyan-600 mb-4"></i> <h3 class="text-xl font-bold mb-2 text-gray-800">Carpetas de Recuperación</h3> <p class="text-gray-500 text-sm flex-grow">Crea planes y materiales para el periodo de recuperación.</p> </div></a>
-                 <a href="https://play.google.com/store/apps/details?id=com.juancaicedo.maestros" class="generator-card bg-lime-50 border-2 border-lime-200" target="_blank" rel="noopener noreferrer"><div class="p-6 h-full flex flex-col items-center text-center"> <i data-lucide="smartphone" class="lucide text-lime-600 mb-4"></i> <h3 class="text-xl font-bold mb-2 text-gray-800">Descarga Nuestra App</h3> <p class="text-gray-500 text-sm flex-grow">Lleva la suite contigo a todas partes en tu móvil.</p> </div></a>
-                 <a href="#" class="generator-card is-disabled bg-slate-50 border-2 border-slate-200 opacity-75 hover:opacity-100"><div class="p-6 h-full flex flex-col items-center text-center"> <i data-lucide="hourglass" class="lucide text-slate-500 mb-4"></i> <h3 class="text-xl font-bold mb-2 text-gray-800">Próximamente</h3> <p class="text-gray-500 text-sm flex-grow">Estamos preparando una nueva y potente herramienta para ti.</p> </div></a>
+            <div id="generator-grid"
+                class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 max-w-7xl mx-auto">
+                <a href="https://glistening-starlight-1588bf.netlify.app/"
+                    class="generator-card bg-sky-50 border-2 border-sky-200">
+                    <div class="p-6 h-full flex flex-col items-center text-center"> <i data-lucide="book-open-check"
+                            class="lucide text-sky-600 mb-4"></i>
+                        <h3 class="text-xl font-bold mb-2 text-gray-800">Generador de Sesiones V-2.0</h3>
+                        <p class="text-gray-500 text-sm flex-grow">Crea tu sesión de aprendizaje completa en un solo
+                            clic.</p>
+                    </div>
+                </a>
+                <a href="https://unidades2.netlify.app/" class="generator-card bg-indigo-50 border-2 border-indigo-200">
+                    <div class="p-6 h-full flex flex-col items-center text-center"> <i data-lucide="layers-3"
+                            class="lucide text-indigo-500 mb-4"></i>
+                        <h3 class="text-xl font-bold mb-2 text-gray-800">Generador de Unidades V-2.0</h3>
+                        <p class="text-gray-500 text-sm flex-grow">Diseña unidades de aprendizaje listas para
+                            implementar.</p>
+                    </div>
+                </a>
+                <a href="https://jazzy-moxie-e34a66.netlify.app/"
+                    class="generator-card bg-emerald-50 border-2 border-emerald-200">
+                    <div class="p-6 h-full flex flex-col items-center text-center"> <i data-lucide="file-spreadsheet"
+                            class="lucide text-emerald-600 mb-4"></i>
+                        <h3 class="text-xl font-bold mb-2 text-gray-800">Fichas y Exámenes</h3>
+                        <p class="text-gray-500 text-sm flex-grow">Genera material de trabajo y evaluaciones al
+                            instante.</p>
+                    </div>
+                </a>
+                <a href="https://fancy-profiterole-01445b.netlify.app/"
+                    class="generator-card bg-amber-50 border-2 border-amber-200">
+                    <div class="p-6 h-full flex flex-col items-center text-center"> <i data-lucide="file-signature"
+                            class="lucide text-amber-600 mb-4"></i>
+                        <h3 class="text-xl font-bold mb-2 text-gray-800">Generador de Solicitudes</h3>
+                        <p class="text-gray-500 text-sm flex-grow">Redacta documentos administrativos de forma
+                            automática.</p>
+                    </div>
+                </a>
+                <a href="https://elegant-duckanoo-d702fe.netlify.app/"
+                    class="generator-card bg-rose-50 border-2 border-rose-200">
+                    <div class="p-6 h-full flex flex-col items-center text-center"> <i data-lucide="shield-check"
+                            class="lucide text-rose-600 mb-4"></i>
+                        <h3 class="text-xl font-bold mb-2 text-gray-800">Solucionador de Conflictos</h3>
+                        <p class="text-gray-500 text-sm flex-grow">Guía para actuar en situaciones de conflicto según
+                            normativas.</p>
+                    </div>
+                </a>
+                <a href="https://jocular-concha-e30cbd.netlify.app/"
+                    class="generator-card bg-violet-50 border-2 border-violet-200">
+                    <div class="p-6 h-full flex flex-col items-center text-center"> <i data-lucide="puzzle"
+                            class="lucide text-violet-600 mb-4"></i>
+                        <h3 class="text-xl font-bold mb-2 text-gray-800">Proyectos Integrados</h3>
+                        <p class="text-gray-500 text-sm flex-grow">Desarrolla proyectos de aprendizaje basados en
+                            problemas reales.</p>
+                    </div>
+                </a>
+                <a href="https://unrivaled-unicorn-fe7373.netlify.app/"
+                    class="generator-card bg-teal-50 border-2 border-teal-200">
+                    <div class="p-6 h-full flex flex-col items-center text-center"> <i data-lucide="calendar-days"
+                            class="lucide text-teal-600 mb-4"></i>
+                        <h3 class="text-xl font-bold mb-2 text-gray-800">Programación Anual</h3>
+                        <p class="text-gray-500 text-sm flex-grow">Genera tu programación curricular anual de forma
+                            sencilla.</p>
+                    </div>
+                </a>
+                <a href="https://stalwart-buttercream-8c9f0d.netlify.app/"
+                    class="generator-card bg-orange-50 border-2 border-orange-200">
+                    <div class="p-6 h-full flex flex-col items-center text-center"> <i data-lucide="notebook-pen"
+                            class="lucide text-orange-600 mb-4"></i>
+                        <h3 class="text-xl font-bold mb-2 text-gray-800">Registros Auxiliares</h3>
+                        <p class="text-gray-500 text-sm flex-grow">Gestiona y crea registros de notas de forma
+                            automática.</p>
+                    </div>
+                </a>
+                <a href="https://carpetasderecuperacion.netlify.app/"
+                    class="generator-card bg-cyan-50 border-2 border-cyan-200">
+                    <div class="p-6 h-full flex flex-col items-center text-center"> <i data-lucide="folder-sync"
+                            class="lucide text-cyan-600 mb-4"></i>
+                        <h3 class="text-xl font-bold mb-2 text-gray-800">Carpetas de Recuperación</h3>
+                        <p class="text-gray-500 text-sm flex-grow">Crea planes y materiales para el periodo de
+                            recuperación.</p>
+                    </div>
+                </a>
+                <a href="https://play.google.com/store/apps/details?id=com.juancaicedo.maestros"
+                    class="generator-card bg-lime-50 border-2 border-lime-200" target="_blank"
+                    rel="noopener noreferrer">
+                    <div class="p-6 h-full flex flex-col items-center text-center"> <i data-lucide="smartphone"
+                            class="lucide text-lime-600 mb-4"></i>
+                        <h3 class="text-xl font-bold mb-2 text-gray-800">Descarga Nuestra App</h3>
+                        <p class="text-gray-500 text-sm flex-grow">Lleva la suite contigo a todas partes en tu móvil.
+                        </p>
+                    </div>
+                </a>
+                <a href="#"
+                    class="generator-card is-disabled bg-slate-50 border-2 border-slate-200 opacity-75 hover:opacity-100">
+                    <div class="p-6 h-full flex flex-col items-center text-center"> <i data-lucide="hourglass"
+                            class="lucide text-slate-500 mb-4"></i>
+                        <h3 class="text-xl font-bold mb-2 text-gray-800">Próximamente</h3>
+                        <p class="text-gray-500 text-sm flex-grow">Estamos preparando una nueva y potente herramienta
+                            para ti.</p>
+                    </div>
+                </a>
             </div>
         </main>
     </div>
 
-    <div id="email-confirmation-modal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center p-4 z-50">
-        <div class="bg-white rounded-2xl shadow-xl p-8 sm:p-12 text-center max-w-md mx-auto transform transition-all scale-95 opacity-0 animate-fade-in-scale">
-            <i data-lucide="mail-check" class="mx-auto text-green-600 mb-4" style="width: 4rem; height: 4rem; stroke-width: 1.5;"></i>
+    <div id="email-confirmation-modal"
+        class="hidden fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center p-4 z-50">
+        <div
+            class="bg-white rounded-2xl shadow-xl p-8 sm:p-12 text-center max-w-md mx-auto transform transition-all scale-95 opacity-0 animate-fade-in-scale">
+            <i data-lucide="mail-check" class="mx-auto text-green-600 mb-4"
+                style="width: 4rem; height: 4rem; stroke-width: 1.5;"></i>
             <h2 class="text-2xl font-bold text-gray-800 mt-6 mb-3">¡Casi listo! Revisa tu correo</h2>
-            <p class="text-gray-600 mb-8">Te hemos enviado un enlace de confirmación. Haz clic en él para activar tu cuenta y poder iniciar sesión. El remitente es **Firebase**.</p>
-            <button id="accept-confirmation-btn" class="w-full h-[52px] flex items-center justify-center font-semibold text-lg text-white rounded-lg primary-button">Aceptar</button>
+            <p class="text-gray-600 mb-8">Te hemos enviado un enlace de confirmación. Haz clic en él para activar tu
+                cuenta y poder iniciar sesión. El remitente es **Firebase**.</p>
+            <button id="accept-confirmation-btn"
+                class="w-full h-[52px] flex items-center justify-center font-semibold text-lg text-white rounded-lg primary-button">Aceptar</button>
         </div>
     </div>
-    
-    <div id="welcome-message-modal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center p-4 z-50">
+
+    <div id="welcome-message-modal"
+        class="hidden fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center p-4 z-50">
         <div class="bg-white rounded-2xl shadow-xl p-8 sm:p-12 text-center max-w-md mx-auto animate-fade-in-scale">
-            <i data-lucide="gift" class="mx-auto text-teal-600 mb-4" style="width: 4rem; height: 4rem; stroke-width: 1.5;"></i>
+            <i data-lucide="gift" class="mx-auto text-teal-600 mb-4"
+                style="width: 4rem; height: 4rem; stroke-width: 1.5;"></i>
             <h2 class="text-2xl font-bold text-gray-800 mt-6 mb-3">¡Bienvenido a la Suite Docente!</h2>
             <p class="text-gray-600 text-lg mb-8">
                 Este es un aporte del <strong>Prof. CAICEDO</strong> para la comunidad educativa.
             </p>
-            <button id="accept-welcome-btn" class="w-full h-[52px] flex items-center justify-center font-semibold text-lg text-white rounded-lg primary-button">OK</button>
+            <button id="accept-welcome-btn"
+                class="w-full h-[52px] flex items-center justify-center font-semibold text-lg text-white rounded-lg primary-button">OK</button>
         </div>
     </div>
 
-    <div id="generator-modal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-90 z-40 flex flex-col p-2 sm:p-4 md:p-6">
+    <div id="generator-modal"
+        class="hidden fixed inset-0 bg-gray-900 bg-opacity-90 z-40 flex flex-col p-2 sm:p-4 md:p-6">
         <div class="w-full flex justify-end flex-shrink-0 mb-2">
-            <button id="close-generator-btn" class="bg-red-600 hover:bg-red-700 text-white rounded-full p-2 transition-transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-white">
+            <button id="close-generator-btn"
+                class="bg-red-600 hover:bg-red-700 text-white rounded-full p-2 transition-transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-white">
                 <i data-lucide="x" class="h-6 w-6"></i>
             </button>
         </div>
@@ -138,303 +236,160 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons();
-            
-            // Selectores de Elementos
+
+            // --- REFERENCIAS A ELEMENTOS DEL DOM ---
             const authView = document.getElementById('auth-view');
             const suiteDashboard = document.getElementById('suite-dashboard');
-            const loginScreen = document.getElementById('login-screen');
-            const registerScreen = document.getElementById('register-screen');
-            const recoveryScreen = document.getElementById('recovery-screen');
-            const loginForm = document.getElementById('login-form');
-            const registerForm = document.getElementById('register-form');
-            const recoveryForm = document.getElementById('recovery-form');
             const loginError = document.getElementById('login-error');
-            const registerMessage = document.getElementById('register-message');
-            const recoveryMessage = document.getElementById('recovery-message');
-            const showRegisterLink = document.getElementById('show-register');
-            const showRecoveryLink = document.getElementById('show-recovery');
-            const showLoginFromRegisterLink = document.getElementById('show-login-from-register');
-            const showLoginFromRecoveryLink = document.getElementById('show-login-from-recovery');
             const userGreeting = document.getElementById('user-greeting');
             const logoutButton = document.getElementById('logout-button');
+
+            // Botones de inicio de sesión
+            const googleLoginBtn = document.getElementById('google-login-btn');
+            const facebookLoginBtn = document.getElementById('facebook-login-btn');
+
+            // Modales y generadores
+            const welcomeMessageModal = document.getElementById('welcome-message-modal');
+            const acceptWelcomeBtn = document.getElementById('accept-welcome-btn');
             const generatorModal = document.getElementById('generator-modal');
             const closeGeneratorBtn = document.getElementById('close-generator-btn');
             const generatorIframe = document.getElementById('generator-iframe');
             const generatorGrid = document.getElementById('generator-grid');
-            const emailConfirmationModal = document.getElementById('email-confirmation-modal');
-            const acceptConfirmationBtn = document.getElementById('accept-confirmation-btn');
-            const welcomeMessageModal = document.getElementById('welcome-message-modal');
-            const acceptWelcomeBtn = document.getElementById('accept-welcome-btn');
-            const googleLoginBtn = document.getElementById('google-login-btn');
 
             // --- FUNCIONES AUXILIARES ---
-            function showAuthScreen(screenToShow) {
-                loginScreen.classList.add('hidden');
-                registerScreen.classList.add('hidden');
-                recoveryScreen.classList.add('hidden');
-                screenToShow.classList.remove('hidden');
-            }
-            function toggleSpinner(form, show) {
-                const buttonText = form.querySelector('.button-text');
-                const spinner = form.querySelector('.spinner');
-                if (show) {
-                    buttonText.classList.add('hidden');
-                    spinner.classList.remove('hidden');
-                    form.querySelector('button').disabled = true;
-                } else {
-                    buttonText.classList.remove('hidden');
-                    spinner.classList.add('hidden');
-                    form.querySelector('button').disabled = false;
-                }
-            }
-            function showMessage(element, message, isError = false) {
+            function showMessage(element, message, isError = true) {
                 element.textContent = message;
                 element.className = `text-center mt-4 text-sm ${isError ? 'text-red-500' : 'text-green-600'}`;
                 element.classList.remove('hidden');
             }
 
-            // --- LÓGICA DE MANEJO DE LOGIN EXITOSO (CENTRALIZADA) ---
             function handleSuccessfulLogin(user) {
-                const userName = user.displayName || user.email;
+                const userName = user.displayName || user.email || 'Docente';
                 userGreeting.textContent = `Bienvenido/a, ${userName}.`;
 
-                // Si es la primera vez que entra (no ha visto el saludo), muestra el modal de bienvenida.
                 if (!sessionStorage.getItem('welcomeShown')) {
                     welcomeMessageModal.classList.remove('hidden');
                     lucide.createIcons();
                 } else {
-                    // Si ya vio el saludo, va directo al dashboard.
                     authView.classList.add('hidden');
                     suiteDashboard.classList.remove('hidden');
                 }
             }
-            
-            // --- LÓGICA DE AUTENTICACIÓN (FIREBASE) ---
 
-            // Registro de usuario con Email/Contraseña
-            registerForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                toggleSpinner(registerForm, true);
-                registerMessage.classList.add('hidden');
-                const email = document.getElementById('register-email').value;
-                const password = document.getElementById('register-password').value;
-                const fullName = document.getElementById('register-name').value;
-                try {
-                    const userCredential = await window.createUserWithEmailAndPassword(window.firebaseAuth, email, password);
-                    await window.updateProfile(userCredential.user, { displayName: fullName });
-                    await window.sendEmailVerification(userCredential.user);
-                    
-                    showMessage(registerMessage, 'Registro exitoso. Revisa tu correo para el enlace de verificación.', false);
-                    emailConfirmationModal.classList.remove('hidden');
-                    lucide.createIcons();
-                } catch (error) {
-                    let errorMessage = 'Error al registrar: ';
-                    if (error.code === 'auth/email-already-in-use') errorMessage += 'Este correo ya está registrado.';
-                    else if (error.code === 'auth/invalid-email') errorMessage += 'El formato del correo es inválido.';
-                    else if (error.code === 'auth/weak-password') errorMessage += 'La contraseña es demasiado débil.';
-                    else errorMessage += error.message;
-                    showMessage(registerMessage, errorMessage, true);
-                } finally {
-                    toggleSpinner(registerForm, false);
+            // --- LÓGICA DE AUTENTICACIÓN ---
+
+            // Observador de estado de autenticación (el cerebro de todo)
+            window.onAuthStateChanged(window.firebaseAuth, (user) => {
+                if (user) {
+                    // Si hay un usuario, muéstrale el dashboard
+                    handleSuccessfulLogin(user);
+                } else {
+                    // Si no hay usuario, muestra la pantalla de login
+                    authView.classList.remove('hidden');
+                    suiteDashboard.classList.add('hidden');
+                    loginError.classList.add('hidden');
                 }
             });
 
-            // Inicio de sesión con Email/Contraseña
-            loginForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                toggleSpinner(loginForm, true);
-                loginError.classList.add('hidden');
-                const email = document.getElementById('login-email').value;
-                const password = document.getElementById('login-password').value;
-                try {
-                    await window.signInWithEmailAndPassword(window.firebaseAuth, email, password);
-                    // onAuthStateChanged se encargará del resto.
-                } catch (error) {
-                    let errorMessage = 'Error al iniciar sesión: ';
-                    if (error.code === 'auth/invalid-credential' || error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
-                        errorMessage += 'Correo o contraseña incorrectos.';
-                    } else {
-                        errorMessage += "Inténtalo de nuevo.";
-                    }
-                    showMessage(loginError, errorMessage, true);
-                } finally {
-                    toggleSpinner(loginForm, false);
-                }
-            });
-
-            // Inicio de sesión con Google
+            // Event Listener para el botón de Google
             googleLoginBtn.addEventListener('click', async () => {
                 loginError.classList.add('hidden');
+                const provider = new window.GoogleAuthProvider();
                 try {
-                    const result = await window.signInWithPopup(window.firebaseAuth, window.googleProvider);
-                    const user = result.user;
-                    // Si el usuario de Firebase no tiene nombre pero el de Google sí, lo actualizamos.
-                    if (!user.displayName && result.additionalUserInfo?.profile?.name) {
-                        await window.updateProfile(user, { displayName: result.additionalUserInfo.profile.name });
-                    }
-                    // onAuthStateChanged se encargará del resto.
+                    await window.signInWithPopup(window.firebaseAuth, provider);
                 } catch (error) {
                     if (error.code !== 'auth/popup-closed-by-user') {
-                        showMessage(loginError, 'No se pudo iniciar sesión con Google.', true);
+                        showMessage(loginError, 'No se pudo iniciar sesión con Google.');
                         console.error("Google Sign-In Error:", error);
                     }
                 }
             });
-            
-            // Restablecimiento de contraseña
-            recoveryForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                toggleSpinner(recoveryForm, true);
-                recoveryMessage.classList.add('hidden');
-                const email = document.getElementById('recovery-email').value;
+
+            // Event Listener para el botón de Facebook
+            facebookLoginBtn.addEventListener('click', async () => {
+                loginError.classList.add('hidden');
+                const provider = new window.FacebookAuthProvider();
                 try {
-                    await window.sendPasswordResetEmail(window.firebaseAuth, email);
-                    showMessage(recoveryMessage, 'Si tu correo existe, recibirás un enlace para restablecer tu contraseña.', false);
+                    await window.signInWithPopup(window.firebaseAuth, provider);
                 } catch (error) {
-                    showMessage(recoveryMessage, 'Error al enviar el correo.', true);
-                } finally {
-                    toggleSpinner(recoveryForm, false);
+                    if (error.code !== 'auth/popup-closed-by-user') {
+                        showMessage(loginError, 'No se pudo iniciar sesión con Facebook.');
+                        console.error("Error de inicio de sesión con Facebook:", error);
+                    }
                 }
             });
 
-            // Cierre de sesión
+            // Event Listener para cerrar sesión
             logoutButton.addEventListener('click', async () => {
                 sessionStorage.removeItem('welcomeShown');
                 await window.signOut(window.firebaseAuth);
             });
 
-            // GESTOR DE ESTADO DE AUTENTICACIÓN (onAuthStateChanged) - EL PUNTO CENTRAL
-            window.firebaseAuth.onAuthStateChanged((user) => { 
-                if (user) {
-                    // Para login con Email, se requiere verificación. Google ya viene verificado.
-                    const isVerified = user.emailVerified || (user.providerData.some(p => p.providerId === 'google.com'));
-                    
-                    if (isVerified) {
-                        handleSuccessfulLogin(user);
-                    } else {
-                        // Usuario registrado con email pero no ha verificado.
-                        authView.classList.remove('hidden');
-                        suiteDashboard.classList.add('hidden');
-                        // Mostramos un error persistente pidiendo verificar.
-                        showMessage(loginError, 'Debes verificar tu correo electrónico. Revisa tu bandeja de entrada y spam.', true);
-                        window.signOut(window.firebaseAuth); // Cerramos sesión para forzar un nuevo intento post-verificación.
-                    }
-                } else {
-                    // No hay usuario (sesión cerrada o nunca iniciada)
-                    authView.classList.remove('hidden');
-                    suiteDashboard.classList.add('hidden');
-                    loginForm.reset();
-                    registerForm.reset();
-                    recoveryForm.reset();
-                    loginError.classList.add('hidden');
-                    registerMessage.classList.add('hidden');
-                    recoveryMessage.classList.add('hidden');
-                    showAuthScreen(loginScreen);
-                }
-            });
 
-            // EVENT LISTENERS PARA NAVEGACIÓN Y MODALES
-            showRegisterLink.addEventListener('click', (e) => { e.preventDefault(); showAuthScreen(registerScreen); });
-            showRecoveryLink.addEventListener('click', (e) => { e.preventDefault(); showAuthScreen(recoveryScreen); });
-            showLoginFromRegisterLink.addEventListener('click', (e) => { e.preventDefault(); showAuthScreen(loginScreen); });
-            showLoginFromRecoveryLink.addEventListener('click', (e) => { e.preventDefault(); showAuthScreen(loginScreen); });
-
-            acceptConfirmationBtn.addEventListener('click', () => {
-                emailConfirmationModal.classList.add('hidden');
-                registerForm.reset();
-                showAuthScreen(loginScreen);
-            });
+            // --- LÓGICA DE LA INTERFAZ (MODALES Y GENERADORES) ---
 
             acceptWelcomeBtn.addEventListener('click', () => {
                 welcomeMessageModal.classList.add('hidden');
                 sessionStorage.setItem('welcomeShown', 'true');
-                // Una vez aceptado el saludo, mostramos el dashboard.
                 authView.classList.add('hidden');
                 suiteDashboard.classList.remove('hidden');
             });
 
-            // --- REEMPLAZA TU CÓDIGO DE EVENTOS POR ESTE BLOQUE COMPLETO ---
-
-            // Evento para abrir el generador al hacer clic en una tarjeta
             generatorGrid.addEventListener('click', (e) => {
-                // Encuentra la tarjeta más cercana en la que se hizo clic
                 const card = e.target.closest('.generator-card');
-                
-                // Procede solo si es una tarjeta válida, no deshabilitada y no un enlace externo
                 if (card && !card.classList.contains('is-disabled') && !card.hasAttribute('target')) {
-                    e.preventDefault(); // Evita la navegación
-                    
-                    // Comprueba si el usuario ha iniciado sesión antes de abrir el generador
+                    e.preventDefault();
                     if (window.firebaseAuth.currentUser) {
-                        
-                        // ¡ESTA ES LA LÍNEA CORREGIDA!
-                        // Se usan comillas graves (backticks `) para construir la URL correctamente.
                         generatorIframe.src = `${card.href}?autorizado=true`;
-                        
-                        // Muestra la ventana flotante
                         generatorModal.classList.remove('hidden');
-                        document.body.style.overflow = 'hidden'; // Bloquea el scroll del fondo
-                        lucide.createIcons(); // Vuelve a renderizar los iconos por si acaso
-                    } else {
-                        // Opcional: Podrías mostrar un mensaje si intentan abrir sin sesión
-                        console.log("Usuario no autenticado. No se puede abrir el generador.");
+                        document.body.style.overflow = 'hidden';
+                        lucide.createIcons();
                     }
                 }
             });
 
-            // Evento para el botón de cerrar la ventana flotante del generador
             closeGeneratorBtn.addEventListener('click', () => {
                 generatorModal.classList.add('hidden');
-                // Limpia el iframe para detener cualquier proceso y liberar memoria
-                generatorIframe.src = 'about:blank'; 
-                document.body.style.overflow = 'auto'; // Restaura el scroll del fondo
+                generatorIframe.src = 'about:blank';
+                document.body.style.overflow = 'auto';
             });
-
         });
     </script>
     <script type="module">
-    import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js';
-    import { 
-        getAuth, 
-        GoogleAuthProvider,
-        signInWithPopup,
-        createUserWithEmailAndPassword, 
-        signInWithEmailAndPassword, 
-        sendEmailVerification,
-        sendPasswordResetEmail, 
-        onAuthStateChanged,     
-        signOut,
-        updateProfile
-    } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js';
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js';
+        import {
+            getAuth,
+            onAuthStateChanged,
+            signOut,
+            updateProfile,
+            GoogleAuthProvider,
+            FacebookAuthProvider,
+            signInWithPopup
+        } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js';
 
-    // --- CONFIGURACIÓN ÚNICA Y DEFINITIVA ---
-    const firebaseConfig = {
-    apiKey: "AIzaSyC-Og-9Ju4aWSbmwa6b4OpoHzjPzd073VI",
-    authDomain: "auth.caicedoeduca.com", // <-- EL CAMBIO FINAL Y DEFINITIVO
-    projectId: "delta-cortex-437020-h5",
-    storageBucket: "delta-cortex-437020-h5.appspot.com",
-    messagingSenderId: "423600255022",
-    appId: "1:423600255022:web:210337d8730803c500afbf",
-    measurementId: "G-2KJ74JH382"
-};
+        // --- Tu configuración de Firebase (sin cambios) ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyC-Og-9Ju4aWSbmwa6b4OpoHzjPzd073VI",
+            authDomain: "auth.caicedoeduca.com",
+            projectId: "delta-cortex-437020-h5",
+            storageBucket: "delta-cortex-437020-h5.appspot.com",
+            messagingSenderId: "423600255022",
+            appId: "1:423600255022:web:210337d8730803c500afbf",
+            measurementId: "G-2KJ74JH382"
+        };
 
-    // Inicializamos Firebase
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const googleProvider = new GoogleAuthProvider();
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
 
-    // Exponer funciones y variables de Firebase al scope global (window)
-    window.firebaseAuth = auth;
-    window.googleProvider = googleProvider;
-    window.signInWithPopup = signInWithPopup;
-    window.createUserWithEmailAndPassword = createUserWithEmailAndPassword;
-    window.signInWithEmailAndPassword = signInWithEmailAndPassword;
-    window.sendEmailVerification = sendEmailVerification;
-    window.sendPasswordResetEmail = sendPasswordResetEmail; 
-    window.onAuthStateChanged = onAuthStateChanged;         
-    window.signOut = signOut;
-    window.updateProfile = updateProfile;
-
-</script>
+        // Hacemos que auth y las funciones necesarias estén disponibles globalmente
+        window.firebaseAuth = auth;
+        window.GoogleAuthProvider = GoogleAuthProvider;
+        window.FacebookAuthProvider = FacebookAuthProvider;
+        window.signInWithPopup = signInWithPopup;
+        window.onAuthStateChanged = onAuthStateChanged;
+        window.signOut = signOut;
+        window.updateProfile = updateProfile;
+    </script>
 </body>
+
 </html>
