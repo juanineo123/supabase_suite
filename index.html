@@ -306,9 +306,18 @@
             });
 
             // Event Listener para el botón de Facebook
+            // Event Listener para el botón de Facebook
             facebookLoginBtn.addEventListener('click', async () => {
                 loginError.classList.add('hidden');
                 const provider = new window.FacebookAuthProvider();
+
+                // --- INICIO DE LA MODIFICACIÓN CLAVE ---
+                // Le decimos a Facebook que solo queremos el perfil público.
+                provider.setCustomParameters({
+                    scope: 'public_profile'
+                });
+                // --- FIN DE LA MODIFICACIÓN CLAVE ---
+
                 try {
                     await window.signInWithPopup(window.firebaseAuth, provider);
                 } catch (error) {
