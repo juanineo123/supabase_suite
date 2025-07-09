@@ -26,38 +26,37 @@
                 <div class="lg:w-1/2 h-3/5 lg:h-full flex items-center justify-center p-4 sm:p-8 lg:p-12 bg-white overflow-y-auto">
                     <div class="w-full max-w-md">
                         <div id="login-screen">
-                            <div class="text-center mb-8">
-                                <h1 class="text-3xl font-bold text-gray-800">BIENVENIDO A LA SUITE DOCENTE</h1>
-                                <p class="text-gray-500 mt-2">Inicia sesión para acceder a los generadores, solo necesitas registrarte, <strong>¡ES GRATIS!</strong></p>
-                            </div>
-                            <form id="login-form" class="space-y-4">
-                                <div><input id="login-email" type="email" autocomplete="email" required class="w-full px-4 py-3 rounded-lg custom-input" placeholder="Correo electrónico"></div>
-                                <div><input id="login-password" type="password" autocomplete="current-password" required class="w-full px-4 py-3 rounded-lg custom-input" placeholder="Contraseña"></div>
-                                <button type="submit" class="w-full h-[52px] flex items-center justify-center font-semibold text-lg text-white rounded-lg primary-button focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"><span class="button-text">Iniciar Sesión</span><div class="spinner hidden"></div></button>
-                            </form>
-                            <p id="login-error" class="text-red-500 text-center hidden mt-4 text-sm"></p>
-                            
-                            <div class="my-6 flex items-center">
-                                <div class="flex-grow border-t border-gray-300"></div>
-                                <span class="flex-shrink mx-4 text-gray-400 text-sm">O</span>
-                                <div class="flex-grow border-t border-gray-300"></div>
-                            </div>
+    <div class="text-center mb-8">
+        <h1 class="text-3xl font-bold text-gray-800">BIENVENIDO A LA SUITE DOCENTE</h1>
+        <p class="text-gray-500 mt-2">Inicia sesión para acceder a los generadores, solo necesitas registrarte, <strong>¡ES GRATIS!</strong></p>
+    </div>
 
-                            <button id="google-login-btn" type="button" class="w-full h-[52px] flex items-center justify-center font-semibold text-lg text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400">
-                                <svg class="w-5 h-5 mr-3" viewBox="0 0 48 48">
-                                    <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24s8.955,20,20,20s20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"></path>
-                                    <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"></path>
-                                    <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.222,0-9.522-3.441-11.022-8.12l-6.522,5.025C9.505,39.556,16.227,44,24,44z"></path>
-                                    <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571l6.19,5.238C42.022,35.132,44,30.028,44,24C44,22.659,43.862,21.35,43.611,20.083z"></path>
-                                </svg>
-                                Iniciar Sesión con Google
-                            </button>
+    <form id="login-form" class="space-y-4">
+        <div><input id="login-email" type="email" autocomplete="email" required class="w-full px-4 py-3 rounded-lg custom-input" placeholder="Correo electrónico"></div>
+        <div><input id="login-password" type="password" autocomplete="current-password" required class="w-full px-4 py-3 rounded-lg custom-input" placeholder="Contraseña"></div>
+        <button type="submit" class="w-full h-[52px] flex items-center justify-center font-semibold text-lg text-white rounded-lg primary-button focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"><span class="button-text">Iniciar Sesión</span><div class="spinner hidden"></div></button>
+    </form>
+    <p id="login-error" class="text-red-500 text-center hidden mt-4 text-sm"></p>
+    
+    <div class="my-6 flex items-center">
+        <div class="flex-grow border-t border-gray-300"></div>
+        <span class="flex-shrink mx-4 text-gray-400 text-sm">O</span>
+        <div class="flex-grow border-t border-gray-300"></div>
+    </div>
 
-                            <div class="text-center text-sm text-gray-500 mt-6 space-y-4">
-                                <a href="#" id="show-recovery" class="font-medium primary-link">¿Olvidaste tu contraseña?</a>
-                                <a href="#" id="show-register" class="w-full h-[52px] flex items-center justify-center font-semibold text-lg rounded-lg secondary-button">¿No tienes una cuenta? Regístrate</a>
-                            </div>
-                        </div>
+    <div class="space-y-4">
+        <a href="#" id="show-register" class="w-full h-[52px] flex items-center justify-center font-semibold text-lg rounded-lg secondary-button">Regístrate con un correo</a>
+        
+        <button id="google-login-btn" type="button" class="w-full h-[52px] flex items-center justify-center font-semibold text-lg text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400">
+            <svg class="w-5 h-5 mr-3" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24s8.955,20,20,20s20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"></path><path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"></path><path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.222,0-9.522-3.441-11.022-8.12l-6.522,5.025C9.505,39.556,16.227,44,24,44z"></path><path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571l6.19,5.238C42.022,35.132,44,30.028,44,24C44,22.659,43.862,21.35,43.611,20.083z"></path></svg>
+            Inicia Sesión con Google
+        </button>
+    </div>
+    
+    <div class="text-center mt-6">
+        <a href="#" id="show-recovery" class="font-medium primary-link text-sm">¿Olvidaste tu contraseña?</a>
+    </div>
+</div>
                         <div id="register-screen" class="hidden">
                             <div class="text-center mb-8"><h1 class="text-3xl font-bold text-gray-800">Crear una Cuenta Nueva</h1><p class="text-gray-500 mt-2">Únete a la suite para transformar tu enseñanza.</p></div>
                             <form id="register-form" class="space-y-4">
@@ -354,69 +353,88 @@
                 suiteDashboard.classList.remove('hidden');
             });
 
+            // --- REEMPLAZA TU CÓDIGO DE EVENTOS POR ESTE BLOQUE COMPLETO ---
+
+            // Evento para abrir el generador al hacer clic en una tarjeta
             generatorGrid.addEventListener('click', (e) => {
+                // Encuentra la tarjeta más cercana en la que se hizo clic
                 const card = e.target.closest('.generator-card');
+                
+                // Procede solo si es una tarjeta válida, no deshabilitada y no un enlace externo
                 if (card && !card.classList.contains('is-disabled') && !card.hasAttribute('target')) {
-                    e.preventDefault();
+                    e.preventDefault(); // Evita la navegación
+                    
+                    // Comprueba si el usuario ha iniciado sesión antes de abrir el generador
                     if (window.firebaseAuth.currentUser) {
-                        generatorIframe.src = card.href; 
+                        
+                        // ¡ESTA ES LA LÍNEA CORREGIDA!
+                        // Se usan comillas graves (backticks `) para construir la URL correctamente.
+                        generatorIframe.src = `${card.href}?autorizado=true`;
+                        
+                        // Muestra la ventana flotante
                         generatorModal.classList.remove('hidden');
-                        document.body.style.overflow = 'hidden';
-                        lucide.createIcons();
+                        document.body.style.overflow = 'hidden'; // Bloquea el scroll del fondo
+                        lucide.createIcons(); // Vuelve a renderizar los iconos por si acaso
+                    } else {
+                        // Opcional: Podrías mostrar un mensaje si intentan abrir sin sesión
+                        console.log("Usuario no autenticado. No se puede abrir el generador.");
                     }
                 }
             });
 
+            // Evento para el botón de cerrar la ventana flotante del generador
             closeGeneratorBtn.addEventListener('click', () => {
                 generatorModal.classList.add('hidden');
-                generatorIframe.src = 'about:blank';
-                document.body.style.overflow = 'auto';
+                // Limpia el iframe para detener cualquier proceso y liberar memoria
+                generatorIframe.src = 'about:blank'; 
+                document.body.style.overflow = 'auto'; // Restaura el scroll del fondo
             });
+
         });
     </script>
     <script type="module">
-        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js';
-        import { 
-            getAuth, 
-            getRedirectResult,
-            GoogleAuthProvider,
-            signInWithPopup,
-            createUserWithEmailAndPassword, 
-            signInWithEmailAndPassword, 
-            sendEmailVerification,
-            sendPasswordResetEmail, 
-            onAuthStateChanged,     
-            signOut,
-            updateProfile
-        } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js';
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js';
+    import { 
+        getAuth, 
+        GoogleAuthProvider,
+        signInWithPopup,
+        createUserWithEmailAndPassword, 
+        signInWithEmailAndPassword, 
+        sendEmailVerification,
+        sendPasswordResetEmail, 
+        onAuthStateChanged,     
+        signOut,
+        updateProfile
+    } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js';
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyC-Og-9Ju4aWSbmwa6b4OpoHzjPzd073VI",
-            authDomain: "delta-cortex-437020-h5.firebaseapp.com",
-            projectId: "delta-cortex-437020-h5",
-            storageBucket: "delta-cortex-437020-h5.appspot.com",
-            messagingSenderId: "423600255022",
-            appId: "1:423600255022:web:210337d8730803c500afbf",
-            measurementId: "G-2KJ74JH382"
-        };
+    // --- CONFIGURACIÓN ÚNICA Y DEFINITIVA ---
+    const firebaseConfig = {
+    apiKey: "AIzaSyC-Og-9Ju4aWSbmwa6b4OpoHzjPzd073VI",
+    authDomain: "auth.caicedoeduca.com", // <-- EL CAMBIO FINAL Y DEFINITIVO
+    projectId: "delta-cortex-437020-h5",
+    storageBucket: "delta-cortex-437020-h5.appspot.com",
+    messagingSenderId: "423600255022",
+    appId: "1:423600255022:web:210337d8730803c500afbf",
+    measurementId: "G-2KJ74JH382"
+};
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const googleProvider = new GoogleAuthProvider();
-        
-        // Exponer funciones y variables de Firebase al scope global (window)
-        window.firebaseAuth = auth;
-        window.googleProvider = googleProvider;
-        window.signInWithPopup = signInWithPopup;
-        window.createUserWithEmailAndPassword = createUserWithEmailAndPassword;
-        window.signInWithEmailAndPassword = signInWithEmailAndPassword;
-        window.sendEmailVerification = sendEmailVerification;
-        window.sendPasswordResetEmail = sendPasswordResetEmail; 
-        window.onAuthStateChanged = onAuthStateChanged;         
-        window.signOut = signOut;
-        window.updateProfile = updateProfile;
-        
-    </script>
+    // Inicializamos Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const googleProvider = new GoogleAuthProvider();
 
+    // Exponer funciones y variables de Firebase al scope global (window)
+    window.firebaseAuth = auth;
+    window.googleProvider = googleProvider;
+    window.signInWithPopup = signInWithPopup;
+    window.createUserWithEmailAndPassword = createUserWithEmailAndPassword;
+    window.signInWithEmailAndPassword = signInWithEmailAndPassword;
+    window.sendEmailVerification = sendEmailVerification;
+    window.sendPasswordResetEmail = sendPasswordResetEmail; 
+    window.onAuthStateChanged = onAuthStateChanged;         
+    window.signOut = signOut;
+    window.updateProfile = updateProfile;
+
+</script>
 </body>
 </html>
