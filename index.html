@@ -24,7 +24,8 @@
         <div id="auth-view">
             <div class="min-h-screen grid grid-cols-1 lg:grid-cols-2">
 
-                <div class="h-64 lg:h-screen bg-cover bg-center" style="background-image: url('images/login-bg.png');">
+                <div class="h-64 bg-contain bg-center bg-no-repeat lg:h-screen lg:bg-cover"
+                    style="background-image: url('images/login-bg.png');">
                 </div>
 
                 <div class="flex items-center justify-center p-4 sm:p-8 lg:p-12 bg-white">
@@ -67,9 +68,6 @@
                                 </button>
                             </div>
 
-
-
-
                             <p id="login-error" class="text-red-500 text-center hidden mt-4 text-sm"></p>
                         </div>
 
@@ -77,119 +75,119 @@
                 </div>
             </div>
         </div>
-        <main id="suite-dashboard" class="hidden min-h-screen p-4 sm:p-8">
-            <header class="flex justify-between items-center mb-12 max-w-7xl mx-auto">
-                <div class="text-left">
-                    <h1 class="text-2xl md:text-3xl font-bold text-gray-900">Suite de Generadores</h1>
-                    <p id="user-greeting" class="text-gray-600">Bienvenido/a.</p>
-                </div>
-                <button id="logout-button"
-                    class="bg-red-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-red-600 transition-colors">Cerrar
-                    Sesión</button>
-            </header>
-            <div id="generator-grid"
-                class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 max-w-7xl mx-auto">
-                <a href="https://glistening-starlight-1588bf.netlify.app/"
-                    class="generator-card bg-sky-50 border-2 border-sky-200">
-                    <div class="p-6 h-full flex flex-col items-center text-center"> <i data-lucide="book-open-check"
-                            class="lucide text-sky-600 mb-4"></i>
-                        <h3 class="text-xl font-bold mb-2 text-gray-800">Generador de Sesiones V-2.0</h3>
-                        <p class="text-gray-500 text-sm flex-grow">Crea tu sesión de aprendizaje completa en un solo
-                            clic.</p>
-                    </div>
-                </a>
-                <a href="https://unidades2.netlify.app/" class="generator-card bg-indigo-50 border-2 border-indigo-200">
-                    <div class="p-6 h-full flex flex-col items-center text-center"> <i data-lucide="layers-3"
-                            class="lucide text-indigo-500 mb-4"></i>
-                        <h3 class="text-xl font-bold mb-2 text-gray-800">Generador de Unidades V-2.0</h3>
-                        <p class="text-gray-500 text-sm flex-grow">Diseña unidades de aprendizaje listas para
-                            implementar.</p>
-                    </div>
-                </a>
-                <a href="https://jazzy-moxie-e34a66.netlify.app/"
-                    class="generator-card bg-emerald-50 border-2 border-emerald-200">
-                    <div class="p-6 h-full flex flex-col items-center text-center"> <i data-lucide="file-spreadsheet"
-                            class="lucide text-emerald-600 mb-4"></i>
-                        <h3 class="text-xl font-bold mb-2 text-gray-800">Fichas y Exámenes</h3>
-                        <p class="text-gray-500 text-sm flex-grow">Genera material de trabajo y evaluaciones al
-                            instante.</p>
-                    </div>
-                </a>
-                <a href="https://fancy-profiterole-01445b.netlify.app/"
-                    class="generator-card bg-amber-50 border-2 border-amber-200">
-                    <div class="p-6 h-full flex flex-col items-center text-center"> <i data-lucide="file-signature"
-                            class="lucide text-amber-600 mb-4"></i>
-                        <h3 class="text-xl font-bold mb-2 text-gray-800">Generador de Solicitudes</h3>
-                        <p class="text-gray-500 text-sm flex-grow">Redacta documentos administrativos de forma
-                            automática.</p>
-                    </div>
-                </a>
-                <a href="https://elegant-duckanoo-d702fe.netlify.app/"
-                    class="generator-card bg-rose-50 border-2 border-rose-200">
-                    <div class="p-6 h-full flex flex-col items-center text-center"> <i data-lucide="shield-check"
-                            class="lucide text-rose-600 mb-4"></i>
-                        <h3 class="text-xl font-bold mb-2 text-gray-800">Solucionador de Conflictos</h3>
-                        <p class="text-gray-500 text-sm flex-grow">Guía para actuar en situaciones de conflicto según
-                            normativas.</p>
-                    </div>
-                </a>
-                <a href="https://jocular-concha-e30cbd.netlify.app/"
-                    class="generator-card bg-violet-50 border-2 border-violet-200">
-                    <div class="p-6 h-full flex flex-col items-center text-center"> <i data-lucide="puzzle"
-                            class="lucide text-violet-600 mb-4"></i>
-                        <h3 class="text-xl font-bold mb-2 text-gray-800">Proyectos Integrados</h3>
-                        <p class="text-gray-500 text-sm flex-grow">Desarrolla proyectos de aprendizaje basados en
-                            problemas reales.</p>
-                    </div>
-                </a>
-                <a href="https://unrivaled-unicorn-fe7373.netlify.app/"
-                    class="generator-card bg-teal-50 border-2 border-teal-200">
-                    <div class="p-6 h-full flex flex-col items-center text-center"> <i data-lucide="calendar-days"
-                            class="lucide text-teal-600 mb-4"></i>
-                        <h3 class="text-xl font-bold mb-2 text-gray-800">Programación Anual</h3>
-                        <p class="text-gray-500 text-sm flex-grow">Genera tu programación curricular anual de forma
-                            sencilla.</p>
-                    </div>
-                </a>
-                <a href="https://stalwart-buttercream-8c9f0d.netlify.app/"
-                    class="generator-card bg-orange-50 border-2 border-orange-200">
-                    <div class="p-6 h-full flex flex-col items-center text-center"> <i data-lucide="notebook-pen"
-                            class="lucide text-orange-600 mb-4"></i>
-                        <h3 class="text-xl font-bold mb-2 text-gray-800">Registros Auxiliares</h3>
-                        <p class="text-gray-500 text-sm flex-grow">Gestiona y crea registros de notas de forma
-                            automática.</p>
-                    </div>
-                </a>
-                <a href="https://carpetasderecuperacion.netlify.app/"
-                    class="generator-card bg-cyan-50 border-2 border-cyan-200">
-                    <div class="p-6 h-full flex flex-col items-center text-center"> <i data-lucide="folder-sync"
-                            class="lucide text-cyan-600 mb-4"></i>
-                        <h3 class="text-xl font-bold mb-2 text-gray-800">Carpetas de Recuperación</h3>
-                        <p class="text-gray-500 text-sm flex-grow">Crea planes y materiales para el periodo de
-                            recuperación.</p>
-                    </div>
-                </a>
-                <a href="https://play.google.com/store/apps/details?id=com.juancaicedo.maestros"
-                    class="generator-card bg-lime-50 border-2 border-lime-200" target="_blank"
-                    rel="noopener noreferrer">
-                    <div class="p-6 h-full flex flex-col items-center text-center"> <i data-lucide="smartphone"
-                            class="lucide text-lime-600 mb-4"></i>
-                        <h3 class="text-xl font-bold mb-2 text-gray-800">Descarga Nuestra App</h3>
-                        <p class="text-gray-500 text-sm flex-grow">Lleva la suite contigo a todas partes en tu móvil.
-                        </p>
-                    </div>
-                </a>
-                <a href="#"
-                    class="generator-card is-disabled bg-slate-50 border-2 border-slate-200 opacity-75 hover:opacity-100">
-                    <div class="p-6 h-full flex flex-col items-center text-center"> <i data-lucide="hourglass"
-                            class="lucide text-slate-500 mb-4"></i>
-                        <h3 class="text-xl font-bold mb-2 text-gray-800">Próximamente</h3>
-                        <p class="text-gray-500 text-sm flex-grow">Estamos preparando una nueva y potente herramienta
-                            para ti.</p>
-                    </div>
-                </a>
+    </div>
+    <main id="suite-dashboard" class="hidden min-h-screen p-4 sm:p-8">
+        <header class="flex justify-between items-center mb-12 max-w-7xl mx-auto">
+            <div class="text-left">
+                <h1 class="text-2xl md:text-3xl font-bold text-gray-900">Suite de Generadores</h1>
+                <p id="user-greeting" class="text-gray-600">Bienvenido/a.</p>
             </div>
-        </main>
+            <button id="logout-button"
+                class="bg-red-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-red-600 transition-colors">Cerrar
+                Sesión</button>
+        </header>
+        <div id="generator-grid"
+            class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 max-w-7xl mx-auto">
+            <a href="https://glistening-starlight-1588bf.netlify.app/"
+                class="generator-card bg-sky-50 border-2 border-sky-200">
+                <div class="p-6 h-full flex flex-col items-center text-center"> <i data-lucide="book-open-check"
+                        class="lucide text-sky-600 mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2 text-gray-800">Generador de Sesiones V-2.0</h3>
+                    <p class="text-gray-500 text-sm flex-grow">Crea tu sesión de aprendizaje completa en un solo
+                        clic.</p>
+                </div>
+            </a>
+            <a href="https://unidades2.netlify.app/" class="generator-card bg-indigo-50 border-2 border-indigo-200">
+                <div class="p-6 h-full flex flex-col items-center text-center"> <i data-lucide="layers-3"
+                        class="lucide text-indigo-500 mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2 text-gray-800">Generador de Unidades V-2.0</h3>
+                    <p class="text-gray-500 text-sm flex-grow">Diseña unidades de aprendizaje listas para
+                        implementar.</p>
+                </div>
+            </a>
+            <a href="https://jazzy-moxie-e34a66.netlify.app/"
+                class="generator-card bg-emerald-50 border-2 border-emerald-200">
+                <div class="p-6 h-full flex flex-col items-center text-center"> <i data-lucide="file-spreadsheet"
+                        class="lucide text-emerald-600 mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2 text-gray-800">Fichas y Exámenes</h3>
+                    <p class="text-gray-500 text-sm flex-grow">Genera material de trabajo y evaluaciones al
+                        instante.</p>
+                </div>
+            </a>
+            <a href="https://fancy-profiterole-01445b.netlify.app/"
+                class="generator-card bg-amber-50 border-2 border-amber-200">
+                <div class="p-6 h-full flex flex-col items-center text-center"> <i data-lucide="file-signature"
+                        class="lucide text-amber-600 mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2 text-gray-800">Generador de Solicitudes</h3>
+                    <p class="text-gray-500 text-sm flex-grow">Redacta documentos administrativos de forma
+                        automática.</p>
+                </div>
+            </a>
+            <a href="https://elegant-duckanoo-d702fe.netlify.app/"
+                class="generator-card bg-rose-50 border-2 border-rose-200">
+                <div class="p-6 h-full flex flex-col items-center text-center"> <i data-lucide="shield-check"
+                        class="lucide text-rose-600 mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2 text-gray-800">Solucionador de Conflictos</h3>
+                    <p class="text-gray-500 text-sm flex-grow">Guía para actuar en situaciones de conflicto según
+                        normativas.</p>
+                </div>
+            </a>
+            <a href="https://jocular-concha-e30cbd.netlify.app/"
+                class="generator-card bg-violet-50 border-2 border-violet-200">
+                <div class="p-6 h-full flex flex-col items-center text-center"> <i data-lucide="puzzle"
+                        class="lucide text-violet-600 mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2 text-gray-800">Proyectos Integrados</h3>
+                    <p class="text-gray-500 text-sm flex-grow">Desarrolla proyectos de aprendizaje basados en
+                        problemas reales.</p>
+                </div>
+            </a>
+            <a href="https://unrivaled-unicorn-fe7373.netlify.app/"
+                class="generator-card bg-teal-50 border-2 border-teal-200">
+                <div class="p-6 h-full flex flex-col items-center text-center"> <i data-lucide="calendar-days"
+                        class="lucide text-teal-600 mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2 text-gray-800">Programación Anual</h3>
+                    <p class="text-gray-500 text-sm flex-grow">Genera tu programación curricular anual de forma
+                        sencilla.</p>
+                </div>
+            </a>
+            <a href="https://stalwart-buttercream-8c9f0d.netlify.app/"
+                class="generator-card bg-orange-50 border-2 border-orange-200">
+                <div class="p-6 h-full flex flex-col items-center text-center"> <i data-lucide="notebook-pen"
+                        class="lucide text-orange-600 mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2 text-gray-800">Registros Auxiliares</h3>
+                    <p class="text-gray-500 text-sm flex-grow">Gestiona y crea registros de notas de forma
+                        automática.</p>
+                </div>
+            </a>
+            <a href="https://carpetasderecuperacion.netlify.app/"
+                class="generator-card bg-cyan-50 border-2 border-cyan-200">
+                <div class="p-6 h-full flex flex-col items-center text-center"> <i data-lucide="folder-sync"
+                        class="lucide text-cyan-600 mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2 text-gray-800">Carpetas de Recuperación</h3>
+                    <p class="text-gray-500 text-sm flex-grow">Crea planes y materiales para el periodo de
+                        recuperación.</p>
+                </div>
+            </a>
+            <a href="https://play.google.com/store/apps/details?id=com.juancaicedo.maestros"
+                class="generator-card bg-lime-50 border-2 border-lime-200" target="_blank" rel="noopener noreferrer">
+                <div class="p-6 h-full flex flex-col items-center text-center"> <i data-lucide="smartphone"
+                        class="lucide text-lime-600 mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2 text-gray-800">Descarga Nuestra App</h3>
+                    <p class="text-gray-500 text-sm flex-grow">Lleva la suite contigo a todas partes en tu móvil.
+                    </p>
+                </div>
+            </a>
+            <a href="#"
+                class="generator-card is-disabled bg-slate-50 border-2 border-slate-200 opacity-75 hover:opacity-100">
+                <div class="p-6 h-full flex flex-col items-center text-center"> <i data-lucide="hourglass"
+                        class="lucide text-slate-500 mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2 text-gray-800">Próximamente</h3>
+                    <p class="text-gray-500 text-sm flex-grow">Estamos preparando una nueva y potente herramienta
+                        para ti.</p>
+                </div>
+            </a>
+        </div>
+    </main>
     </div>
 
     <div id="email-confirmation-modal"
