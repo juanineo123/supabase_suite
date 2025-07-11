@@ -240,7 +240,7 @@
             const loginError = document.getElementById('login-error');
             const userGreeting = document.getElementById('user-greeting');
             const logoutButton = document.getElementById('logout-button');
-
+            const logoutMessageModal = document.getElementById('logout-message-modal');
             // Botones de inicio de sesión
             const googleLoginBtn = document.getElementById('google-login-btn');
             const facebookLoginBtn = document.getElementById('facebook-login-btn');
@@ -285,6 +285,7 @@
                     authView.classList.remove('hidden');
                     suiteDashboard.classList.add('hidden');
                     loginError.classList.add('hidden');
+                    logoutMessageModal.classList.add('hidden');
                 }
             });
 
@@ -325,10 +326,17 @@
                 }
             });
 
-            // Event Listener para cerrar sesión
-            logoutButton.addEventListener('click', async () => {
-                sessionStorage.removeItem('welcomeShown');
-                await window.signOut(window.firebaseAuth);
+            logoutButton.addEventListener('click', () => {
+                // 1. Referencia y muestra el modal de despedida
+                logoutMessageModal.classList.remove('hidden');
+                lucide.createIcons(); // Re-dibuja el ícono de Lucide
+
+                // 2. Espera 2 segundos y LUEGO cierra la sesión de Firebase
+                setTimeout(async () => {
+                    sessionStorage.removeItem('welcomeShown');
+                    await window.signOut(window.firebaseAuth);
+                    // El observador de auth se encargará de ocultar todo al cambiar de estado
+                }, 2000); // 2000 milisegundos = 2 segundos
             });
 
 
@@ -361,6 +369,15 @@
             });
         });
     </script>
+    <div id="logout-message-modal"
+        class="hidden fixed inset-0 bg-gray-900 bg-opacity-80 flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-2xl shadow-xl p-8 sm:p-12 text-center max-w-md mx-auto animate-fade-in-scale">
+            <i data-lucide="log-out" class="mx-auto text-sky-600 mb-6"
+                style="width: 4rem; height: 4rem; stroke-width: 1.5;"></i>
+            <h2 class="text-2xl font-bold text-gray-800">Cerrando sesión...</h2>
+            <p class="text-gray-600 text-lg mt-2">¡Hasta pronto!</p>
+        </div>
+    </div>
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js';
         import {
@@ -396,6 +413,8 @@
         window.signOut = signOut;
         window.updateProfile = updateProfile;
     </script>
+
+
 </body>
 
 </html>
