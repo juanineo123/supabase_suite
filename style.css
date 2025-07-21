@@ -9,8 +9,8 @@ body { font-family: 'Manrope', sans-serif; background-color: #f9fafb; color: #1f
 .secondary-button:hover { background-color: #0d9488; color: white; transform: translateY(-2px); box-shadow: 0 4px 15px rgba(13, 148, 136, 0.2); }
 .primary-link { color: #0d9488; }
 .primary-link:hover { color: #059669; }
-.custom-input { background-color: #f9fafb; border: 1px solid #e5e7eb; transition: ring 0.2s ease, border-color 0.2s ease; }
-.custom-input:focus { background-color: white; border-color: #0d9488; ring: 2px; --tw-ring-color: rgba(13, 148, 136, 0.3); }
+.custom-input { background-color: #f9fafb; border: 1px solid #e5e7eb; transition: box-shadow 0.2s ease, border-color 0.2s ease; }
+.custom-input:focus { background-color: white; border-color: #0d9488; box-shadow: 0 0 0 2px rgba(13, 148, 136, 0.3); }
 .hidden { display: none; }
 .spinner { width: 24px; height: 24px; border: 3px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: #fff; animation: spin 1s ease-in-out infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
@@ -24,3 +24,25 @@ body { font-family: 'Manrope', sans-serif; background-color: #f9fafb; color: #1f
 .animate-fade-in-scale {
     animation: fade-in-scale 0.4s ease-out forwards;
 }
+
+/* === INICIO DEL CÓDIGO PARA ARREGLAR VISTA MÓVIL === */
+@media (max-width: 1023px) { 
+    #auth-view .lg\:grid-cols-2 > div:first-child {
+      display: none;
+    }
+
+    #auth-view .lg\:grid-cols-2 > div:last-child {
+      background-image: url('images/login-bg.png');
+      background-size: cover;
+      background-position: center;
+    }
+
+    #login-screen {
+      background-color: rgba(255, 255, 255, 0.90);
+      padding: 2rem;
+      border-radius: 1rem;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+}
+/* === FIN DEL CÓDIGO PARA ARREGLAR VISTA MÓVIL === */
